@@ -15,11 +15,8 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\..\..\SharedService\src\CoreConfiguration\CoreConfiguration.csproj" />
-      <ProjectReference Include="..\..\..\SharedService\src\CoreConfiguration\CoreConfiguration.csproj" />
-      <ProjectReference Include="..\..\Application\Application.csproj" />
-      <ProjectReference Include="..\..\Infrastructure\Infrastructure.csproj" />
-      <ProjectReference Include="..\Application\Application.csproj" />
-      <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+      <ProjectReference Include="..\..\AuthorizationService.Application\AuthorizationService.Application.csproj" />
+      <ProjectReference Include="..\..\AuthorizationService.Infrastructure\AuthorizationService.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>

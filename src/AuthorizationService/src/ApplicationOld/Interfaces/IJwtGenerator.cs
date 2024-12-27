@@ -1,6 +1,6 @@
-﻿using Domain.Dto;
+﻿using ApplicationOld.Dto;
 
-namespace Application.Interfaces;
+namespace ApplicationOld.Interfaces;
 
 public interface IJwtGenerator
 {

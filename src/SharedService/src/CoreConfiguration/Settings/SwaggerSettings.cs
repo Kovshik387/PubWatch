@@ -1,6 +1,3 @@
-﻿namespace ConfigurationShare.Settings;
+﻿namespace CoreConfiguration.Settings;
 
-public class SwaggerSettings
-{
-    public bool Enabled { get; private set; } = false;
-}
+public record SwaggerSettings(bool Enabled, string AppTitle);

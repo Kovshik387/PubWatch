@@ -1,4 +1,4 @@
-﻿using Domain.Entities;
+﻿using AuthorizationService.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace AuthorizationService.Application.Interfaces;

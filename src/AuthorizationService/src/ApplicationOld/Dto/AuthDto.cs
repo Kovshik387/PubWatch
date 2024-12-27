@@ -1,6 +1,3 @@
-﻿namespace Application.Dto;
+﻿namespace ApplicationOld.Dto;
 
-public class AuthDto
-{
-    
-}
+public record AuthDto(Guid Id, string AccessToken, string RefreshToken);

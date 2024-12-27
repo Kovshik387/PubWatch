@@ -1,7 +1,7 @@
-﻿using Domain.Entities;
+﻿using AuthorizationService.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.Interfaces;
+namespace ApplicationOld.Interfaces;
 
 public interface IDbContext
 {

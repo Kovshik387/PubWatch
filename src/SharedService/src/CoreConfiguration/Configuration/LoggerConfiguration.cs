@@ -1,9 +1,9 @@
-﻿using ConfigurationShare.Settings;
+﻿using CoreConfiguration.Settings;
 using Microsoft.AspNetCore.Builder;
 using Serilog;
 using Serilog.Events;
 
-namespace ConfigurationShare.Configuration;
+namespace CoreConfiguration.Configuration;
 
 /// <summary>
 /// Logger Configuration

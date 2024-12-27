@@ -1,6 +1,3 @@
 ﻿namespace AuthorizationService.Domain.Settings;
 
-public class RoutePathSettings
-{
-    
-}
+public record RoutePathSettings(string MessageRoute);

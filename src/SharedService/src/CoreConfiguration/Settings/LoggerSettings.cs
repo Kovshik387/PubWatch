@@ -1,4 +1,4 @@
-﻿namespace ConfigurationShare.Settings;
+﻿namespace CoreConfiguration.Settings;
 
 public class LoggerSettings
 {

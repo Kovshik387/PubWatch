@@ -1,6 +1,3 @@
 ﻿namespace AccountService.Application.Dto;
 
-public class FavoriteDto
-{
-    
-}
+public record FavoriteDto(int Id, string Volute, string Name);

@@ -25,7 +25,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Domain\Domain.csproj" />
+      <ProjectReference Include="..\..\..\SharedService\src\MessagePublisherService\src\MessagePublisher\MessagePublisher.csproj" />
+      <ProjectReference Include="..\AuthorizationService.Domain\AuthorizationService.Domain.csproj" />
     </ItemGroup>
 
 </Project>

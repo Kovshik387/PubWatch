@@ -1,13 +1,13 @@
-﻿using Application.Interfaces;
-using Domain.Dto;
-using Domain.Entities;
-using Domain.Exceptions;
+﻿using ApplicationOld.Dto;
+using ApplicationOld.Interfaces;
+using AuthorizationService.Domain.Entities;
+using AuthorizationService.Domain.Exceptions;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace Application.Commands;
+namespace ApplicationOld.Commands;
 
 public record SignInAccountCommand(string Email, string Password, string Device) : IRequest<AuthDto>;
 

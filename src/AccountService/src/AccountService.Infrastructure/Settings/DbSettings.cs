@@ -1,6 +1,3 @@
 ﻿namespace AccountService.Infrastructure.Settings;
 
-public class DbSettings
-{
-    
-}
+public record DbSettings(string ConnectionString, bool DetailedLog);

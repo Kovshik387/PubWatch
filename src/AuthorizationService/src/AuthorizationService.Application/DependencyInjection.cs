@@ -1,14 +1,14 @@
-﻿using Application.Dto;
-using Application.Interfaces;
-using Application.Services;
-using Domain.Settings;
+﻿using AuthorizationService.Application.Dto;
+using AuthorizationService.Application.Interfaces;
+using AuthorizationService.Application.Services;
+using AuthorizationService.Domain.Settings;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Application;
+namespace AuthorizationService.Application;
 
 public static class DependencyInjection
 {

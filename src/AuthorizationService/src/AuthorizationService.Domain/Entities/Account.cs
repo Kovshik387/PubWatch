@@ -10,5 +10,5 @@ public partial class Account
 
     public required string PasswordHash { get; set; } = null!;
     
-    public virtual required ICollection<RefreshToken> Refreshes { get; set; }
+    public virtual ICollection<RefreshToken> Refreshes { get; set; }
 }

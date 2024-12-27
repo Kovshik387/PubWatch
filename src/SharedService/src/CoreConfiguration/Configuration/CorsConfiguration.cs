@@ -1,8 +1,9 @@
-﻿using ConfigurationShare.Settings;
+﻿using CoreConfiguration.Settings;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace ConfigurationShare.Configuration;
+namespace CoreConfiguration.Configuration;
 
 
 public static class CorsConfiguration
@@ -21,12 +22,12 @@ public static class CorsConfiguration
     /// <summary>
     /// Use service
     /// </summary>
-    /// <param name="app">Application</param>
-    public static void UseAppCors(this WebApplication app)
+    /// <param name="app">AuthorizationService.Application</param>
+    internal static void UseAppCors(this WebApplication app)
     {
-        var corsSettings = app.Services.GetService<CorsSettings>();
-
-        var origins = corsSettings!.AllowedOrigins.Split(',', ';').Select(x => x.Trim())
+        var corsSettings = app.Configuration.GetSection(nameof(CorsSettings)).Get<CorsSettings>();
+        
+        var origins = corsSettings?.AllowedOrigins.Split(',', ';').Select(x => x.Trim())
             .Where(x => !string.IsNullOrEmpty(x)).ToArray();
 
         app.UseCors(pol =>

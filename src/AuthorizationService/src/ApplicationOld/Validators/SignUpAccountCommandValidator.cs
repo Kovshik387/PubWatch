@@ -1,7 +1,7 @@
-﻿using Application.Commands;
+﻿using ApplicationOld.Commands;
 using FluentValidation;
 
-namespace Application.Validators;
+namespace ApplicationOld.Validators;
 
 public class SignUpAccountCommandValidator : AbstractValidator<SignUpAccountCommand>
 {

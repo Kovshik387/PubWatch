@@ -2,7 +2,7 @@
 using System.Security.Claims;
 using AuthorizationService.Application.Dto;
 using AuthorizationService.Application.Interfaces;
-using Domain.Settings;
+using AuthorizationService.Domain.Settings;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;

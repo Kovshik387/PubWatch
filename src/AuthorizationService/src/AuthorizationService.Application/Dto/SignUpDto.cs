@@ -1,3 +1,11 @@
 ﻿namespace AuthorizationService.Application.Dto;
 
-public record SignUpDto(string Email, string Password, string Name, string Surname, string Patronymic, string Device);
+public class SignUpDto
+{
+    public required string Email { get; set; }
+    public required string Password { get; set; }
+    public required string Name { get; set; }
+    public required string Surname { get; set; }
+    public required string Patronymic { get; set; }
+    public string? Device { get; set; }
+}

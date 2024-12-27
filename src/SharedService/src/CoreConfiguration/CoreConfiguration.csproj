@@ -7,13 +7,19 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
       <PackageReference Include="Serilog" Version="4.2.0" />
       <PackageReference Include="Serilog.Enrichers.CorrelationId" Version="3.0.1" />
       <PackageReference Include="Serilog.Extensions" Version="8.0.3" />
       <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
       <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
       <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
+      <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.7.3" />
+      <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.7.3" />
+      <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="8.0.2" />
+      <PackageReference Include="Swashbuckle.AspNetCore.Filters.Abstractions" Version="8.0.2" />
     </ItemGroup>
 
 </Project>

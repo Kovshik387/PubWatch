@@ -1,10 +1,13 @@
 ﻿using AuthorizationService.Application.Dto;
 using AuthorizationService.Application.Interfaces;
-using Domain.Entities;
-using Domain.Exceptions;
+using AuthorizationService.Domain.Entities;
+using AuthorizationService.Domain.Exceptions;
+using AuthorizationService.Domain.Settings;
 using FluentValidation;
+using MessagePublisher.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace AuthorizationService.Application.Services;
 
@@ -14,16 +17,21 @@ public class AuthService : IAuthService
     private readonly IDbContext _dbContext;
     private readonly ILogger<AuthService> _logger;
     
+    private readonly RoutePathSettings _routePathSettings;
+    
+    private readonly IMessagePublisher _messagePublisher;
+    
     private readonly IValidator<SignInDto> _signInValidator;
     private readonly IValidator<SignUpDto> _signUpValidator;
     
     public AuthService(IJwtGenerator jwtGenerator, IDbContext dbContext, ILogger<AuthService> logger,
-        IValidator<SignInDto> signInValidator, IValidator<SignUpDto> signUpValidator)
+        IValidator<SignInDto> signInValidator, IValidator<SignUpDto> signUpValidator,
+        IMessagePublisher messagePublisher, IOptions<RoutePathSettings> routePathSettings)
     {
-        _jwtGenerator = jwtGenerator;
-        _dbContext = dbContext;
-        _logger = logger;
+        _jwtGenerator = jwtGenerator; _dbContext = dbContext; _logger = logger;
         _signInValidator = signInValidator; _signUpValidator = signUpValidator;
+        _messagePublisher = messagePublisher;
+        _routePathSettings = routePathSettings.Value;
     }
 
     public async Task<AuthDto> SignInAsync(SignInDto model)
@@ -35,7 +43,7 @@ public class AuthService : IAuthService
         var account = await _dbContext.Accounts.
             FirstOrDefaultAsync(x => x.Email.Equals(model.Email.ToUpper()));
         
-        if (account is null) throw new NotFoundException("Account not found");
+        if (account is null) throw new NotFoundException("Email or password is incorrect");
         
         if (!BCrypt.Net.BCrypt.Verify(model.Password,account.PasswordHash))
             throw new UnauthorizedAccessException();
@@ -82,18 +90,26 @@ public class AuthService : IAuthService
 
         var account = new Account
         {
+            Id = accountGuid,
             Email = model.Email,
             EmailNormalized = model.Email.ToUpper(),
             PasswordHash = BCrypt.Net.BCrypt.HashPassword(model.Password,10),
-            Refreshes = []
         };
         
         //TODO request to AccountService
-
+        await _messagePublisher.PushAsync(_routePathSettings.MessageRoute, new
+        {
+            Id = account.Id,
+            Name = model.Name,
+            Surname = model.Surname,
+            Patronymic = model.Patronymic,
+            Email = account.Email,
+        });
+        
         var refresh = new RefreshToken
         {
             Token = token.RefreshToken,
-            Device = model.Device,
+            Device = model.Device ?? "",
             Idaccount = accountGuid,
         };
         

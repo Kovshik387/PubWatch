@@ -1,9 +1,9 @@
-﻿using Application.Interfaces;
-using Domain.Exceptions;
+﻿using ApplicationOld.Interfaces;
+using AuthorizationService.Domain.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.Commands;
+namespace ApplicationOld.Commands;
 
 public record LogoutAccountCommand(string RefreshToken) : IRequest<bool>;
 

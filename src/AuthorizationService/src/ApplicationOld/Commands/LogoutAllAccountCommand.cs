@@ -1,9 +1,9 @@
-﻿using Application.Interfaces;
-using Domain.Exceptions;
+﻿using ApplicationOld.Interfaces;
+using AuthorizationService.Domain.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.Commands;
+namespace ApplicationOld.Commands;
 
 public record LogoutAllAccountCommand(string RefreshToken) : IRequest<bool>;
 
@@ -29,7 +29,11 @@ public class LogoutAllAccountCommandHandler : IRequestHandler<LogoutAllAccountCo
         if (account.Refreshes.FirstOrDefault(x => x.Token == request.RefreshToken) is null)
             throw new RefreshTokenException("Invalid refresh token");
         
-        account.Refreshes.Clear(); _dbContext.Accounts.Update(account);
+        var refreshes = account.Refreshes.Where(x => x.Token != request.RefreshToken);
+        foreach (var refresh in refreshes)
+            account.Refreshes.Remove(refresh);
+        
+        _dbContext.Accounts.Update(account);
         await _dbContext.SaveChangesAsync(cancellationToken);
 
         return true;

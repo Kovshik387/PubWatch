@@ -1,11 +1,11 @@
-﻿using Application.Interfaces;
-using Infrastructure.Data;
-using Infrastructure.Settings;
+﻿using AuthorizationService.Application.Interfaces;
+using AuthorizationService.Infrastructure.Data;
+using AuthorizationService.Infrastructure.Settings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Infrastructure;
+namespace AuthorizationService.Infrastructure;
 
 public static class DependencyInjection
 {
