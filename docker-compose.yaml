@@ -1,0 +1,36 @@
+name: develop
+
+networks:
+  pub-dev:
+    driver: bridge
+
+services:
+  
+  postgres_db:
+      image: postgres:latest
+      container_name: postgres
+      environment:
+        POSTGRES_NAME: 'postgres'
+        POSTGRES_PASSWORD: '123'
+        POSTGRES_DB: 'exchange'
+      ports:
+        - "5433:5432"
+      networks:
+        - pub-dev
+      volumes:
+        - postgres-data:/var/lib/postgresql/data
+
+  rabbitmq:
+    container_name: rabbitMq
+    image: rabbitmq:management
+    ports:
+      - "5672:5672"
+      - "5673:5673"
+      - "15672:15672" 
+    networks:
+      - exchange
+    volumes:      
+      - ./rabbitmq:/var/lib/rabbitmq
+
+volumes:
+  postgres-data:
