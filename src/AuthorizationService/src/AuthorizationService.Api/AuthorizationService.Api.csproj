@@ -8,15 +8,15 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Content Include="..\..\..\..\.dockerignore">
+      <Content Include="..\..\..\.dockerignore">
         <Link>.dockerignore</Link>
       </Content>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\..\..\SharedService\src\CoreConfiguration\CoreConfiguration.csproj" />
-      <ProjectReference Include="..\..\AuthorizationService.Application\AuthorizationService.Application.csproj" />
-      <ProjectReference Include="..\..\AuthorizationService.Infrastructure\AuthorizationService.Infrastructure.csproj" />
+      <ProjectReference Include="..\..\..\SharedService\src\CoreConfiguration\CoreConfiguration.csproj" />
+      <ProjectReference Include="..\AuthorizationService.Application\AuthorizationService.Application.csproj" />
+      <ProjectReference Include="..\AuthorizationService.Infrastructure\AuthorizationService.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>

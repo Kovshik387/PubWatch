@@ -8,7 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Content Include="..\..\..\..\..\.dockerignore">
+      <Content Include="..\..\..\..\.dockerignore">
         <Link>.dockerignore</Link>
       </Content>
     </ItemGroup>
@@ -22,13 +22,13 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Protobuf Include="..\..\AccountService.Infrastructure\Proto\account.proto" GrpcServices="Server" />
+        <Protobuf Include="..\AccountService.Infrastructure\Proto\account.proto" GrpcServices="Server" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\..\..\SharedService\src\CoreConfiguration\CoreConfiguration.csproj" />
-      <ProjectReference Include="..\..\AccountService.Application\AccountService.Application.csproj" />
-      <ProjectReference Include="..\..\AccountService.Infrastructure\AccountService.Infrastructure.csproj" />
+      <ProjectReference Include="..\..\..\SharedService\src\CoreConfiguration\CoreConfiguration.csproj" />
+      <ProjectReference Include="..\AccountService.Application\AccountService.Application.csproj" />
+      <ProjectReference Include="..\AccountService.Infrastructure\AccountService.Infrastructure.csproj" />
     </ItemGroup>
     
 </Project>
