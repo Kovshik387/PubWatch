@@ -1,4 +1,5 @@
 ﻿using AccountService.Application.Dto;
+using AccountService.Application.Features.Commands;
 using AccountService.Domain.Entities;
 using AutoMapper;
 
@@ -8,7 +9,7 @@ public class AccountMapper : Profile
 {
     public AccountMapper()
     {
-        CreateMap<UserDto,User>().ReverseMap();
+        CreateMap<AccountDto,User>().ReverseMap();
         CreateMap<FavoriteDto,Favorite>().ReverseMap();
     }
 }

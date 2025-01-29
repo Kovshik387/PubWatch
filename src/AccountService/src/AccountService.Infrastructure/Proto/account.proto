@@ -1,0 +1,22 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "AccountServiceProto";
+
+package account;
+
+message AccountRequest {
+  string id = 1;
+  string email = 2;
+  string name = 3;
+  string surname = 4;
+  string patronymic = 5;
+};
+
+message AccountResponse {
+  string id = 1;
+  bool success = 2;
+}
+
+service Account {
+  rpc AddAccount (AccountRequest) returns (AccountResponse);
+}

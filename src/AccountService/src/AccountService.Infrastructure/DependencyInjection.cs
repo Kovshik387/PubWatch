@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using AccountService.Application.Interfaces;
 using AccountService.Infrastructure.Data;
+using AccountService.Infrastructure.Services;
 using AccountService.Infrastructure.Settings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -18,6 +19,8 @@ public static class DependencyInjection
             .Where(s => s.FullName != null && s.FullName.ToLower().StartsWith("accountservice."));
         
         services.AddAutoMapper(assemblies);
+
+        services.AddTransient<IServiceClient, GrpcServiceClient>();
         
         return services;
     }

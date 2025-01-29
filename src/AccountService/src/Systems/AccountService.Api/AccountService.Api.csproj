@@ -12,5 +12,23 @@
         <Link>.dockerignore</Link>
       </Content>
     </ItemGroup>
+    
+    <ItemGroup>
+        <PackageReference Include="AutoMapper" Version="13.0.1" />
+        <PackageReference Include="Grpc.AspNetCore" Version="2.40.0" />
+        <PackageReference Include="Grpc.Tools" Version="2.40.0" PrivateAssets="All" />
+        <PackageReference Include="Google.Protobuf" Version="3.29.1" />
+        <PackageReference Include="MediatR" Version="12.4.1" />
+    </ItemGroup>
 
+    <ItemGroup>
+        <Protobuf Include="..\..\AccountService.Infrastructure\Proto\account.proto" GrpcServices="Server" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\..\SharedService\src\CoreConfiguration\CoreConfiguration.csproj" />
+      <ProjectReference Include="..\..\AccountService.Application\AccountService.Application.csproj" />
+      <ProjectReference Include="..\..\AccountService.Infrastructure\AccountService.Infrastructure.csproj" />
+    </ItemGroup>
+    
 </Project>

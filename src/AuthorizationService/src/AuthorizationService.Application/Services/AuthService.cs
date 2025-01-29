@@ -1,13 +1,11 @@
 ﻿using AuthorizationService.Application.Dto;
 using AuthorizationService.Application.Interfaces;
+using AuthorizationService.Application.Response;
 using AuthorizationService.Domain.Entities;
 using AuthorizationService.Domain.Exceptions;
-using AuthorizationService.Domain.Settings;
 using FluentValidation;
-using MessagePublisher.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace AuthorizationService.Application.Services;
 
@@ -17,21 +15,18 @@ public class AuthService : IAuthService
     private readonly IDbContext _dbContext;
     private readonly ILogger<AuthService> _logger;
     
-    private readonly RoutePathSettings _routePathSettings;
-    
-    private readonly IMessagePublisher _messagePublisher;
+    private readonly IServiceClient _serviceClient;
     
     private readonly IValidator<SignInDto> _signInValidator;
     private readonly IValidator<SignUpDto> _signUpValidator;
     
     public AuthService(IJwtGenerator jwtGenerator, IDbContext dbContext, ILogger<AuthService> logger,
         IValidator<SignInDto> signInValidator, IValidator<SignUpDto> signUpValidator,
-        IMessagePublisher messagePublisher, IOptions<RoutePathSettings> routePathSettings)
+        IServiceClient serviceClient)
     {
         _jwtGenerator = jwtGenerator; _dbContext = dbContext; _logger = logger;
         _signInValidator = signInValidator; _signUpValidator = signUpValidator;
-        _messagePublisher = messagePublisher;
-        _routePathSettings = routePathSettings.Value;
+        _serviceClient = serviceClient;
     }
 
     public async Task<AuthDto> SignInAsync(SignInDto model)
@@ -80,7 +75,7 @@ public class AuthService : IAuthService
             throw new ValidationException(validated.Errors);
         
         var accountExist = await _dbContext.Accounts
-            .Where(x => x.EmailNormalized == model.Email.ToUpper())
+            .Where(x => x.EmailNormalized.Equals(model.Email.ToUpper()))
             .FirstOrDefaultAsync();
         
         if (accountExist is not null) throw new ValidationException("Account already exists");
@@ -96,15 +91,19 @@ public class AuthService : IAuthService
             PasswordHash = BCrypt.Net.BCrypt.HashPassword(model.Password,10),
         };
         
-        //TODO request to AccountService
-        await _messagePublisher.PushAsync(_routePathSettings.MessageRoute, new
+        var response = await _serviceClient.Send<AddAccountResponse>(new AccountDto()
         {
-            Id = account.Id,
+            AccountId = account.Id,
             Name = model.Name,
-            Surname = model.Surname,
+            SurName = model.Surname,
             Patronymic = model.Patronymic,
-            Email = account.Email,
+            Email = account.Email,  
         });
+
+        if (!response.Success)
+        {
+            return new AuthDto(new Guid(), "", "");
+        }
         
         var refresh = new RefreshToken
         {
@@ -129,6 +128,7 @@ public class AuthService : IAuthService
     public async Task<AuthDto> GetAccessTokenAsync(string refreshToken)
     {
         this._logger.LogInformation(_jwtGenerator.GetExpireTime(refreshToken));
+        
         if (DateTime.UtcNow > DateTimeOffset
                 .FromUnixTimeSeconds(long.Parse(_jwtGenerator.GetExpireTime(refreshToken) ?? string.Empty)).UtcDateTime)
             throw new RefreshTokenException("Invalid or expired refresh token");
@@ -160,6 +160,8 @@ public class AuthService : IAuthService
         
         var account = await _dbContext.Accounts.
             FirstOrDefaultAsync(x => x.Id == Guid.Parse(accountGuid));
+        
+        if (account is null) throw new NullReferenceException("Account not found");
         
         var token = account.Refreshes.FirstOrDefault(x => x.Token == refreshToken);
         

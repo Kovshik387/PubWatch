@@ -15,6 +15,10 @@
         <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.0" />
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.2" />
         <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="9.0.0" />
+        <PackageReference Include="Grpc.Net.Client" Version="2.67.0" />
+        <PackageReference Include="Grpc.AspNetCore" Version="2.40.0" />
+        <PackageReference Include="Grpc.Tools" Version="2.40.0" PrivateAssets="All" />
+        <PackageReference Include="Google.Protobuf" Version="3.29.1" />
     </ItemGroup>
 
     <ItemGroup>
@@ -22,4 +26,8 @@
       <ProjectReference Include="..\AccountService.Domain\AccountService.Domain.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+        <Protobuf Include="Proto\storage.proto" GrpcServices="Client"/>
+    </ItemGroup>
+    
 </Project>

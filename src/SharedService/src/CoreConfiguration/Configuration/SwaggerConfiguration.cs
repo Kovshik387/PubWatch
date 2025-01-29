@@ -28,7 +28,7 @@ public static class SwaggerConfiguration
         
         services
             .AddOptions<SwaggerGenOptions>();
-        
+        services.AddGrpcSwagger();
         services.AddSwaggerGen(options =>
         {
             options.SupportNonNullableReferenceTypes();

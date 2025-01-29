@@ -15,13 +15,21 @@ public static class DependencyInjection
         
         return services;
     }
-
+    
     public static void UseCoreConfiguration(this WebApplication app)
     {
+        app.UseAuthentication();
+        app.UseAuthorization();
         app.UseAppSwagger();
         app.UseAppCors();
     }
 
+    public static void UseAppAuth(this WebApplicationBuilder builder)
+    {
+        var jwtSettings = builder.Configuration.GetSection(typeof(JwtSettings).ToString()).Get<JwtSettings>();
+        builder.Services.AddAppAuth(jwtSettings);
+    }
+    
     public static void UseAppLogger(this WebApplicationBuilder builder)
     {
         var loggerSettings = builder.Configuration.GetSection(nameof(LoggerSettings)).Get<LoggerSettings>();

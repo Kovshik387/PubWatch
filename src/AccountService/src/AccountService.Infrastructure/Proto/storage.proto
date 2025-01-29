@@ -1,0 +1,31 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "StorageServiceProto";
+
+package storage;
+
+message UploadImageRequest{
+  string user_id = 1;
+  string image_format = 2;
+  bytes image = 3;
+}
+
+message DeleteImageRequest{
+  string user_id = 1;
+}
+
+message GetImageRequest {
+  string user_id = 1;
+}
+
+message StorageResponse {
+  bool success = 1;
+  string url = 2;
+  string errorMessage = 3;
+}
+
+service StorageService{
+  rpc UploadImage(UploadImageRequest) returns (StorageResponse);
+  rpc DeleteImage(DeleteImageRequest) returns (StorageResponse);
+  rpc GetImage(GetImageRequest) returns (StorageResponse);
+}

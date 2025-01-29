@@ -1,5 +1,6 @@
 ﻿using AuthorizationService.Application.Interfaces;
 using AuthorizationService.Infrastructure.Data;
+using AuthorizationService.Infrastructure.Services;
 using AuthorizationService.Infrastructure.Settings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -11,8 +12,23 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        services.Configure<DbSettings>(configuration.GetSection(nameof(DbSettings)));
+        AddDataBase(services, configuration);
+        
+        var assemblies = AppDomain.CurrentDomain.GetAssemblies()
+            .Where(s => s.FullName != null &&
+                        s.FullName.StartsWith("AuthorizationService.", StringComparison.CurrentCultureIgnoreCase));
+        
+        services.AddAutoMapper(assemblies);
+        services.AddTransient<IServiceClient, GrpcServiceClient>();
+        services.Configure<GrpcEndPointRoute>(configuration.GetSection(nameof(GrpcEndPointRoute)));
+        
+        return services;
+    }
 
+    private static IServiceCollection AddDataBase(IServiceCollection services, IConfiguration configuration)
+    {
+        services.Configure<DbSettings>(configuration.GetSection(nameof(DbSettings)));
+        
         var settings = configuration.GetSection(nameof(DbSettings)).Get<DbSettings>();
 
         if (string.IsNullOrEmpty(settings?.ConnectionString))

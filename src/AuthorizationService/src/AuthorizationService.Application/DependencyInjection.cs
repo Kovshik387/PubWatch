@@ -1,10 +1,9 @@
 ﻿using AuthorizationService.Application.Dto;
 using AuthorizationService.Application.Interfaces;
 using AuthorizationService.Application.Services;
-using AuthorizationService.Domain.Settings;
+using AuthorizationService.Application.Settings;
 using FluentValidation;
 using FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
