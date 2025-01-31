@@ -36,7 +36,7 @@ public class AuthService : IAuthService
             throw new ValidationException(validated.Errors);
         
         var account = await _dbContext.Accounts.
-            FirstOrDefaultAsync(x => x.Email.Equals(model.Email.ToUpper()));
+            FirstOrDefaultAsync(x => x.EmailNormalized.Equals(model.Email.ToUpper()));
         
         if (account is null) throw new NotFoundException("Email or password is incorrect");
         

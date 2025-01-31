@@ -1,3 +1,6 @@
 ﻿namespace AccountService.Infrastructure.Settings;
 
-public record GrpcEndPointRoute(string StorageUrl);
+public class GrpcEndPointRoute
+{
+    public string Url { get; init; } = string.Empty;
+}

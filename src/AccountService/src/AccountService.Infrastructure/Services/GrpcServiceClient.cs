@@ -19,7 +19,7 @@ public class GrpcServiceClient : IServiceClient
     
     public async Task<string> SendAddImageAsync<TData>(ImageDto imageDto)
     {
-        using var channel = GrpcChannel.ForAddress(_endpointRoute.StorageUrl);
+        using var channel = GrpcChannel.ForAddress(_endpointRoute.Url);
         var client = new StorageService.StorageServiceClient(channel);
 
         var response = await client.UploadImageAsync(new UploadImageRequest()

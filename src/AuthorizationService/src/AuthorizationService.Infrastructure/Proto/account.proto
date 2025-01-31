@@ -17,6 +17,19 @@ message AccountResponse {
   bool success = 2;
 }
 
+message AccountsRequest {
+
+}
+
+message AccountSubscribe {
+  string email = 1;
+}
+
+message AccountsResponse {
+  repeated AccountSubscribe subscribers = 1;
+}
+
 service Account {
   rpc AddAccount (AccountRequest) returns (AccountResponse);
+  rpc GetAccounts (AccountRequest) returns (AccountsResponse);
 }

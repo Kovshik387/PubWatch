@@ -28,9 +28,27 @@ services:
       - "5673:5673"
       - "15672:15672" 
     networks:
-      - exchange
+      - pub-dev
     volumes:      
       - ./rabbitmq:/var/lib/rabbitmq
 
+  minio:
+      image: minio/minio
+      container_name: minio
+      
+      ports:
+        - "9000:9000"
+        - "9001:9001"
+      networks:
+        - pub-dev
+      volumes:
+        - minio-storage:/data
+      environment:
+        MINIO_ROOT_USER: masoud
+        MINIO_ROOT_PASSWORD: Strong#Pass#2022
+      command: server /data --console-address :9001
+
+
 volumes:
   postgres-data:
+  minio-storage:

@@ -26,7 +26,7 @@ public static class DependencyInjection
 
     public static void UseAppAuth(this WebApplicationBuilder builder)
     {
-        var jwtSettings = builder.Configuration.GetSection(typeof(JwtSettings).ToString()).Get<JwtSettings>();
+        var jwtSettings = builder.Configuration.GetSection(nameof(JwtSettings)).Get<JwtSettings>();
         builder.Services.AddAppAuth(jwtSettings);
     }
     

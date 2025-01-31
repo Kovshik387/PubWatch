@@ -21,7 +21,7 @@ public static class DependencyInjection
         services.AddAutoMapper(assemblies);
 
         services.AddTransient<IServiceClient, GrpcServiceClient>();
-        
+        services.Configure<GrpcEndPointRoute>(configuration.GetSection(nameof(GrpcEndPointRoute)));
         return services;
     }
 

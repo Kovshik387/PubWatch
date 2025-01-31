@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.UseAppLogger();
 builder.UseAppAuth();
-builder.Services.AddGrpc().AddJsonTranscoding();;
+builder.Services.AddGrpc().AddJsonTranscoding();
 builder.Services.AddCoreConfiguration(builder.Configuration);
 builder.Services.AddApplication(builder.Configuration);
 builder.Services.AddInfrastructure(builder.Configuration);
