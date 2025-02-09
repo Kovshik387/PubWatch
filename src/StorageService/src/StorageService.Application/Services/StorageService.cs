@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Amazon.S3;
+using Amazon.S3.Model;
+using Amazon.S3.Util;
+using Microsoft.Extensions.Logging;
 using Minio;
 using Minio.DataModel.Args;
 using StorageService.Application.Dto;
@@ -9,77 +12,77 @@ namespace StorageService.Application.Services;
 public class StorageService : IStorageService
 {
     private readonly ILogger<StorageService> _logger;
-    private readonly IMinioClientFactory _minioClientFactory;
+    private readonly IAmazonS3 _s3Client;
     
-    public StorageService(ILogger<StorageService> logger, IMinioClientFactory minioClientFactory)
+    public StorageService(ILogger<StorageService> logger, IAmazonS3 s3Client)
     {
         _logger = logger;
-        _minioClientFactory = minioClientFactory;
+        _s3Client = s3Client;
     }
     
     public async Task<string> AddProfilePhotoAsync(AddProfileImageDto addProfileImageDto)
     {
-        using var minioClient = _minioClientFactory.CreateClient();
-        
-        if (!await minioClient.BucketExistsAsync(new BucketExistsArgs()
-                .WithBucket(addProfileImageDto.Id)))
+        var bucketName = addProfileImageDto.Id;
+        if (!await AmazonS3Util.DoesS3BucketExistV2Async(_s3Client, bucketName))
         {
-            _logger.LogInformation($"Creating bucket {addProfileImageDto.Id}");
-            await minioClient.MakeBucketAsync(new MakeBucketArgs()
-                .WithBucket(addProfileImageDto.Id));
+            _logger.LogInformation($"Creating bucket {bucketName}");
+            await _s3Client.PutBucketAsync(new PutBucketRequest { BucketName = bucketName });
         }
         else
         {
-            _logger.LogInformation($"Remove old object {addProfileImageDto.Id}");
-            await minioClient.RemoveObjectAsync(new RemoveObjectArgs()
-                .WithBucket(addProfileImageDto.Id)
-                .WithObject(addProfileImageDto.Id)
-            );
+            _logger.LogInformation($"Removing old object {addProfileImageDto.Id}");
+            await _s3Client.DeleteObjectAsync(new DeleteObjectRequest
+            {
+                BucketName = bucketName,
+                Key = addProfileImageDto.Id
+            });
         }
-        
-        var putObjectArgs = new PutObjectArgs()
-                .WithBucket(addProfileImageDto.Id)
-                .WithStreamData(new MemoryStream(addProfileImageDto.ImageBytes))
-                .WithObject(addProfileImageDto.Id)
-                .WithContentType(addProfileImageDto.Format)
-                .WithObjectSize(addProfileImageDto.ImageBytes.Length)
-            ;
-        var response = await minioClient.PutObjectAsync(putObjectArgs);
-        
-        return response.ResponseContent;
+
+        using var stream = new MemoryStream(addProfileImageDto.ImageBytes);
+        var putRequest = new PutObjectRequest
+        {
+            BucketName = bucketName,
+            Key = addProfileImageDto.Id,
+            InputStream = stream,
+            ContentType = addProfileImageDto.Format
+        };
+
+        var response = await _s3Client.PutObjectAsync(putRequest);
+        return response.HttpStatusCode == System.Net.HttpStatusCode.OK ? addProfileImageDto.Id : string.Empty;
     }
 
     public async Task<bool> DeleteProfilePhotoAsync(string userId)
     {
-        using var minioClient = _minioClientFactory.CreateClient();
+        var objectKey = userId ?? throw new ArgumentNullException(nameof(userId));
 
-        if (!await minioClient.BucketExistsAsync(new BucketExistsArgs()
-                .WithBucket(userId)))
+        if (!await AmazonS3Util.DoesS3BucketExistV2Async(_s3Client, userId))
         {
-            _logger.LogInformation($"Bucket: {userId} doesn't exist");
+            _logger.LogInformation($"Bucket {userId} doesn't exist");
             return false;
         }
 
-        await minioClient.RemoveObjectsAsync(new RemoveObjectsArgs()
-            .WithBucket(userId)
-            .WithObject(userId));
+        await _s3Client.DeleteObjectAsync(new DeleteObjectRequest
+        {
+            BucketName = userId,
+            Key = objectKey
+        });
+
         return true;
     }
 
     public async Task<string> GetProfilePhotoAsync(string userId)
     {
-        using var minioClient = _minioClientFactory.CreateClient();
-
-        if (!await minioClient.BucketExistsAsync(new BucketExistsArgs().WithBucket(userId)))
+        if (!await AmazonS3Util.DoesS3BucketExistV2Async(_s3Client, userId))
             return "";
         
         //TODO configuration time
-        var args = new PresignedGetObjectArgs()
-                .WithBucket(userId)
-                .WithObject(userId)
-                .WithExpiry(60 * 60 * 60)
-        ;
+        var args = new GetPreSignedUrlRequest()
+        {
+            Expires = DateTime.Now.AddHours(1),
+            Key = userId,
+            BucketName = userId,
+        };
         
-        return await minioClient.PresignedGetObjectAsync(args);
+        return await _s3Client.GetPreSignedURLAsync(args);
     }
 }

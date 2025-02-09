@@ -3,27 +3,19 @@
 public record StorageSettings
 {
     /// <summary>
-    /// Прокси
-    /// </summary>
-    public string Proxy { get; set; } = string.Empty;
-    /// <summary>
-    /// Порт
-    /// </summary>
-    public int ProxyPort { get; set; } = 9000;
-    /// <summary>
-    /// Подключение к Minio
-    /// </summary>
-    public string EndPoint { get; set; } = string.Empty;
-    /// <summary>
     /// Имя пользователя
     /// </summary>
-    public string AccessKey {  get; set; } = string.Empty;
+    public string AccessKey {  get; init; } = string.Empty;
     /// <summary>
     /// Секрет 
     /// </summary>
-    public string SecretKey { get; set; } = string.Empty;
+    public string SecretKey { get; init; } = string.Empty;
     /// <summary>
-    /// Включение SSL подключения
+    /// Регион
     /// </summary>
-    public bool Ssl {  get; set; } = false;
+    public string Region { get; init; } = string.Empty;
+    /// <summary>
+    /// Подключение к S3
+    /// </summary>
+    public string EndPoint { get; set; } = string.Empty;
 }

@@ -15,7 +15,8 @@
         <PackageReference Include="Grpc.AspNetCore" Version="2.40.0" />
         <PackageReference Include="Grpc.Tools" Version="2.40.0" PrivateAssets="All" />
         <PackageReference Include="Google.Protobuf" Version="3.29.1" />
-      <PackageReference Include="Minio" Version="6.0.4" />
+        <PackageReference Include="Minio" Version="6.0.4" />
+        <PackageReference Include="AWSSDK.S3" Version="3.7.414.1" />
     </ItemGroup>
 
     <ItemGroup>
