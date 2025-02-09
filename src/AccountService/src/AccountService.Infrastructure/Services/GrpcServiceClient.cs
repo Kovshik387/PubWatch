@@ -31,6 +31,17 @@ public class GrpcServiceClient : IServiceClient
         
         return response.Url;
     }
-    
-    
+
+    public async Task<string> GetPresignedImageUrlAsync(string userId)
+    {
+        using var channel = GrpcChannel.ForAddress(_endpointRoute.Url);
+        var client = new StorageService.StorageServiceClient(channel);
+
+        var response = await client.GetImageAsync(new GetImageRequest()
+        {
+            UserId = userId
+        });
+        
+        return response.Url;
+    }
 }

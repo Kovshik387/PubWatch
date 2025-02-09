@@ -34,6 +34,7 @@ public class AuthController : ControllerBase
     [HttpPost]
     [Route("refresh")]
     [AllowAnonymous]
+    [ProducesResponseType(type:typeof(AuthDto), statusCode: StatusCodes.Status201Created)]
     public async Task<IActionResult> RefreshAccess(string refreshToken)
     {
         return Ok(await _authService.GetAccessTokenAsync(refreshToken));
@@ -42,6 +43,7 @@ public class AuthController : ControllerBase
     [HttpDelete]
     [Route("logout")]
     [Authorize]
+    [ProducesResponseType(type:typeof(bool), statusCode: StatusCodes.Status200OK)]
     public async Task<IActionResult> Logout(string refreshToken)
     {
         return Ok(await _authService.Logout(refreshToken));
@@ -50,6 +52,7 @@ public class AuthController : ControllerBase
     [HttpDelete]
     [Route("logout-all")]
     [Authorize]
+    [ProducesResponseType(type:typeof(bool), statusCode: StatusCodes.Status200OK)]
     public async Task<IActionResult> LogoutAll(string refreshToken)
     {
         return Ok(await _authService.LogoutAll(refreshToken));

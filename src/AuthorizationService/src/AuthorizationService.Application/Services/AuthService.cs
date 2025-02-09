@@ -41,7 +41,7 @@ public class AuthService : IAuthService
         if (account is null) throw new NotFoundException("Email or password is incorrect");
         
         if (!BCrypt.Net.BCrypt.Verify(model.Password,account.PasswordHash))
-            throw new UnauthorizedAccessException();
+            throw new NotFoundException("Email or password is incorrect");
         
         var authResult = _jwtGenerator.GenerateJwtToken(account.Id);
         
