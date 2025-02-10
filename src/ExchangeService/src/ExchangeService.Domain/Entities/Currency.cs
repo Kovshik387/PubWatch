@@ -1,6 +1,6 @@
 ﻿namespace ExchangeService.Domain.Entities;
 
-public sealed class Currency
+public class Currency
 {
     public int Id { get; set; }
 
@@ -20,5 +20,5 @@ public sealed class Currency
 
     public int Valcursid { get; set; }
 
-    public Quotation Valcurs { get; set; } = null!;
+    public virtual Quotation Valcurs { get; set; } = null!;
 }

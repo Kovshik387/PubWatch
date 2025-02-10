@@ -10,4 +10,19 @@
       <ProjectReference Include="..\ExchangeService.Application\ExchangeService.Application.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.2" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.2" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="8.0.2" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.2" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.2"/>
+      <PackageReference Include="Grpc.AspNetCore" Version="2.57.0"/>
+      <PackageReference Include="Grpc.Tools" Version="2.57.0" PrivateAssets="All" />
+      <PackageReference Include="Google.Protobuf" Version="3.29.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Protobuf Include="Proto\exchange.proto" GrpcServices="Server"/>
+    </ItemGroup>
+    
 </Project>

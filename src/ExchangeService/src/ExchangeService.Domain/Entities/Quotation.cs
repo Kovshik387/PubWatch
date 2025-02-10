@@ -1,6 +1,6 @@
 ﻿namespace ExchangeService.Domain.Entities;
 
-public sealed class Quotation
+public class Quotation
 {
     public int Id { get; set; }
 
@@ -8,5 +8,5 @@ public sealed class Quotation
 
     public string Name { get; set; } = null!;
 
-    public ICollection<Currency> Volutes { get; set; } = new List<Currency>();
+    public virtual ICollection<Currency> Volutes { get; set; } = new List<Currency>();
 }
