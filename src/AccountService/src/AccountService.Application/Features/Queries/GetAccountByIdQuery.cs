@@ -32,7 +32,7 @@ public class GetAccountByIdQueryHandler : IRequestHandler<GetAccountByIdQuery, A
         var imageUrl = await _serviceClient.GetPresignedImageUrlAsync(request.Id.ToString());
         
         var result = _mapper.Map<AccountDto>(account);
-        result.Image = imageUrl;
+        result.Image = imageUrl ?? string.Empty;
         
         return result;
     }

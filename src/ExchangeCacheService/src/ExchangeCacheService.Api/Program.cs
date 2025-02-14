@@ -1,6 +1,6 @@
 using CoreConfiguration;
+using ExchangeCacheService.Api.Middleware;
 using ExchangeCacheService.BLL;
-using Microsoft.AspNetCore.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +18,7 @@ app.UseCoreConfiguration();
 app.UseHttpsRedirection();
 app.MapControllers();
 
-app.UseMiddleware<ExceptionHandlerMiddleware>();
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseHealthChecks("/health");
 app.MapHealthChecks("/health");

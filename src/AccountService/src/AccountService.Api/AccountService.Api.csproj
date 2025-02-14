@@ -6,12 +6,6 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
-
-    <ItemGroup>
-      <Content Include="..\..\..\..\.dockerignore">
-        <Link>.dockerignore</Link>
-      </Content>
-    </ItemGroup>
     
     <ItemGroup>
         <PackageReference Include="AutoMapper" Version="13.0.1" />
@@ -25,6 +19,12 @@
       <ProjectReference Include="..\..\..\SharedService\src\CoreConfiguration\CoreConfiguration.csproj" />
       <ProjectReference Include="..\AccountService.Application\AccountService.Application.csproj" />
       <ProjectReference Include="..\AccountService.Infrastructure\AccountService.Infrastructure.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="..\..\..\..\.dockerignore">
+        <Link>.dockerignore</Link>
+      </Content>
     </ItemGroup>
     
 </Project>

@@ -22,5 +22,9 @@
     <ItemGroup>
         <Protobuf Include="Proto\storage.proto" GrpcServices="Server"/>
     </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\StorageService.Application\StorageService.Application.csproj" />
+    </ItemGroup>
     
 </Project>

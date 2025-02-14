@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\BackgroundDailyService.Application\BackgroundDailyService.Application.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="AutoMapper" Version="13.0.1" />
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+      <PackageReference Include="Grpc.AspNetCore" Version="2.57.0"/>
+      <PackageReference Include="Grpc.Tools" Version="2.57.0" PrivateAssets="All" />
+      <PackageReference Include="Google.Protobuf" Version="3.29.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProtoBuf Include="Proto\account.proto" GrpcService="Client"/> 
+        <ProtoBuf Include="Proto\message.proto" GrpcService="Client"/>
+    </ItemGroup>
+    
+</Project>

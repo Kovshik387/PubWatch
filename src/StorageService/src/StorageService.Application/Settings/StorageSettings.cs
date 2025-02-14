@@ -1,4 +1,4 @@
-﻿namespace StorageService.Infrastructure.Settings;
+﻿namespace StorageService.Application.Settings;
 
 public record StorageSettings
 {
@@ -18,4 +18,12 @@ public record StorageSettings
     /// Подключение к S3
     /// </summary>
     public string EndPoint { get; set; } = string.Empty;
+    /// <summary>
+    /// Внешний url
+    /// </summary>
+    public string PublicEndPoint { get; set; } = string.Empty;
+    /// <summary>
+    /// Приватрный url
+    /// </summary>
+    public string PrivateEndPoint { get; set; } = string.Empty;
 }

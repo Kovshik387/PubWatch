@@ -5,6 +5,8 @@ riderModule.iml
 /_ReSharper.Caches/
 .idea/
 .vs/
+.env
+.mail
 rabbitmq/
 /**/*.db
 /**/*.db-shm

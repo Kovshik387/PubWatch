@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="AutoMapper" Version="13.0.1" />
+        <PackageReference Include="Grpc.AspNetCore" Version="2.57.0"/>
+        <PackageReference Include="Grpc.Tools" Version="2.57.0" PrivateAssets="All" />
+        <PackageReference Include="Google.Protobuf" Version="3.29.1" />
+    </ItemGroup>
+    
+    <ItemGroup>
+        <ProtoBuf Include="Proto\message.proto" GrpcServices="Server"/> 
+    </ItemGroup>
+    
+    <ItemGroup>
+      <ProjectReference Include="..\MessageService.Application\MessageService.Application.csproj" />
+    </ItemGroup>
+    
+</Project>

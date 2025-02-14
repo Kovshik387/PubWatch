@@ -1,0 +1,15 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "MessageServiceProto";
+
+import "google/protobuf/empty.proto";
+
+package message;
+
+message NotificationRequest {
+    repeated string email = 1;
+}
+
+service Message {
+  rpc NotificationSubscribers (NotificationRequest) returns (google.protobuf.Empty) {}
+}

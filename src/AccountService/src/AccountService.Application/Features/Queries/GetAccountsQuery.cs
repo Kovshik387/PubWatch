@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AccountService.Application.Features.Queries;
 
-public record GetAccountsQuery() : IRequest<IEnumerable<AccountDto>>;
+public record GetAccountsQuery() : IRequest<List<AccountEmailDto>>;
 
-public class GetAccountsQueryHandler : IRequestHandler<GetAccountsQuery, IEnumerable<AccountDto>>
+public class GetAccountsQueryHandler : IRequestHandler<GetAccountsQuery,List<AccountEmailDto>>
 {
     private readonly IDbContext _dbContext;
     private readonly IMapper _mapper;
@@ -19,9 +19,9 @@ public class GetAccountsQueryHandler : IRequestHandler<GetAccountsQuery, IEnumer
         _mapper = mapper;
     }
 
-    public async Task<IEnumerable<AccountDto>> Handle(GetAccountsQuery request, CancellationToken cancellationToken)
+    public async Task<List<AccountEmailDto>> Handle(GetAccountsQuery request, CancellationToken cancellationToken)
     {
-        return _mapper.Map<IEnumerable<AccountDto>>(
+        return _mapper.Map<List<AccountEmailDto>>(
             await _dbContext.Users.Where(x => x.Accept).ToListAsync(cancellationToken: cancellationToken));
     }
 }       

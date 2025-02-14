@@ -1,0 +1,99 @@
+services:
+    exchange_service:
+      image: ${DOCKER_REGISTRY-}exchange
+      container_name: exchange
+      build:
+        context: ..
+        dockerfile: ./src/ExchangeService/src/ExchangeService.Api/Dockerfile
+      networks:
+        - pub-dev
+      depends_on:
+        - postgres_db
+    
+    cache_service:
+      image: ${DOCKER_REGISTRY-}cache
+      container_name: cache
+      build:
+        context: ..
+        dockerfile: ./src/ExchangeCacheService/src/ExchangeCacheService.Api/Dockerfile
+      networks:
+        - pub-dev
+      ports:
+        - "8020:8080"
+      depends_on:
+        - redis
+
+    account_service:
+      image: ${DOCKER_REGISTRY-}account
+      container_name: account_service
+      build:
+          context: ..
+          dockerfile: ./src/AccountService/src/AccountService.Api/Dockerfile
+      networks:
+          - pub-dev
+      ports:
+        - "8030:8080"
+      expose:
+        - "50051"
+      depends_on:
+        - postgres_db
+
+    auth_service:
+      image: ${DOCKER_REGISTRY-}auth
+      container_name: auth_service
+      build:
+          context: ..
+          dockerfile: ./src/AuthorizationService/src/AuthorizationService.Api/Dockerfile
+      networks:
+          - pub-dev
+      ports:
+        - "8040:8080"
+      depends_on:
+        - postgres_db
+
+    storage_service:
+      image: ${DOCKER_REGISTRY-}storage
+      container_name: storage
+      build:
+        context: ..
+        dockerfile: ./src/StorageService/src/StorageService.Api/Dockerfile
+      networks:
+        - pub-dev
+      ports:
+        - "8050:8080"
+      environment:
+        - name=ASPNETCORE_ENVIRONMENT=Development
+      depends_on:
+        - minio
+
+    message_service:
+      image: ${DOCKER_REGISTRY-}message
+      container_name: message_service
+      build:
+          context: ..
+          dockerfile: ./src/MessageService/src/MessageService.Api/Dockerfile
+      networks:
+          - pub-dev
+      env_file:
+        - env.mail
+      ports:
+        - "8060:8080"
+      depends_on:
+        - redis
+
+    daily_service:
+      image: ${DOCKER_REGISTRY-}daily
+      container_name: daily_service
+      build:
+          context: ..
+          dockerfile: ./src/BackgroundDailyService/src/BackgroundDailyService.Presentation/Dockerfile
+      networks:
+          - pub-dev
+      ports:
+        - "8070:8080"
+      depends_on:
+        - account_service
+        - message_service
+        - cache_service
+        - rabbitmq
+      restart: always

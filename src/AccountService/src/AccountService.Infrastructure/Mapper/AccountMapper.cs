@@ -11,6 +11,8 @@ public class AccountMapper : Profile
     {
         CreateMap<AccountDto,User>().ReverseMap();
         CreateMap<FavoriteDto,Favorite>().ReverseMap();
-        CreateMap<AccountSubscribe,AccountDto>().ReverseMap();
+        CreateMap<SubscribersDto,AccountsResponse>().ReverseMap();
+        CreateMap<AccountEmailDto,User>().ReverseMap();
+        CreateMap<AccountEmailDto,AccountSubscribe>().ReverseMap();
     }
 }

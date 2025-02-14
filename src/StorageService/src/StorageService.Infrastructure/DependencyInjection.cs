@@ -1,9 +1,5 @@
-﻿using System.Net;
-using Amazon;
-using Amazon.Internal;
-using Amazon.S3;
-using Minio;
-using StorageService.Infrastructure.Settings;
+﻿using Amazon.S3;
+using StorageService.Application.Settings;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -27,11 +23,9 @@ public static class DependencyInjection
         services.AddSingleton<IAmazonS3>(x => new AmazonS3Client(
             settings.AccessKey, settings.SecretKey, new AmazonS3Config()
             {
-                RegionEndpoint = RegionEndpoint.USEast1,
                 ServiceURL = settings.EndPoint,
                 ForcePathStyle = true,
-                AuthenticationRegion = RegionEndpoint.USEast1.SystemName,
-                //TODO ssl
+                Timeout = TimeSpan.FromSeconds(10),
                 UseHttp = true,
             }));
         

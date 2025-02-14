@@ -1,11 +1,14 @@
 using AccountService.Api.Middleware;
 using AccountService.Api.Services;
+using AccountService.Api.Settings;
 using AccountService.Application;
 using AccountService.Infrastructure;
 using AccountService.Infrastructure.Data;
 using CoreConfiguration;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.Configure<SecretSettings>(builder.Configuration.GetSection(nameof(SecretSettings)));
 
 builder.UseAppLogger();
 builder.UseAppAuth();
@@ -19,7 +22,7 @@ builder.Services.AddHealthChecks();
 var app = builder.Build();
 
 app.UseCoreConfiguration();
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 app.MapControllers();
 
 app.MapGet("/", () => "Hello World!");

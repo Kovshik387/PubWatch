@@ -22,8 +22,7 @@ public class RabbitMqPublisher : IMessagePublisher, IDisposable
     {
         _rabbitMqSettings = rabbitMqSettings.Value ?? throw new ArgumentNullException(nameof(rabbitMqSettings));
     }
-
-
+    
     public async Task Subscribe<T>(string queueName, OnDataReceiveEvent<T>? onReceive)
     {
         if (onReceive == null)
@@ -102,7 +101,9 @@ public class RabbitMqPublisher : IMessagePublisher, IDisposable
 
             var factory = new ConnectionFactory
             {
-                Uri = new Uri(_rabbitMqSettings.Uri),
+                HostName = _rabbitMqSettings.Host,
+                Port = _rabbitMqSettings.Port,
+
                 UserName = _rabbitMqSettings.UserName,
                 Password = _rabbitMqSettings.Password,
 
@@ -114,11 +115,7 @@ public class RabbitMqPublisher : IMessagePublisher, IDisposable
             while (retriesCount < ConnectRetriesCount)
                 try
                 {
-                    if (_connection == null)
-                    {
-                        _connection = factory.CreateConnection();
-                        Console.WriteLine("connection");
-                    }
+                    _connection ??= factory.CreateConnection();
 
                     if (_channel == null)
                     {

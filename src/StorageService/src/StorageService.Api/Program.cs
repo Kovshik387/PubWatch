@@ -18,7 +18,7 @@ builder.Services.AddHealthChecks();
 var app = builder.Build();
 
 app.UseCoreConfiguration();
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 app.MapControllers();
 
 app.MapGet("/", () => "Hello World!");
