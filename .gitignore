@@ -6,7 +6,7 @@ riderModule.iml
 .idea/
 .vs/
 .env
-.mail
+/deploy/env.mail
 rabbitmq/
 /**/*.db
 /**/*.db-shm
