@@ -38,6 +38,8 @@ public class ExchangeService : IExchangeService
         
         if (data is null)
         {
+            _logger.LogDebug("{Url}",date is null ? _externEndPointRoute.UrlDaily : _externEndPointRoute.UrlDaily + "?date_req=" + 
+                date);
             var response = await _httpClient.FetchDataAsync<QuotationDto>(
                 date is null ? _externEndPointRoute.UrlDaily : _externEndPointRoute.UrlDaily + "?date_req=" + 
                                                                date
