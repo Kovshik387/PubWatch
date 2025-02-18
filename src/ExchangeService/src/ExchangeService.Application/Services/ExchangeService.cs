@@ -40,9 +40,9 @@ public class ExchangeService : IExchangeService
         {
             var response = await _httpClient.FetchDataAsync<QuotationDto>(
                 date is null ? _externEndPointRoute.UrlDaily : _externEndPointRoute.UrlDaily + "?date_req=" + 
-                                                               date.ToString()!.Replace(".","/")
+                                                               date
             );
-
+            
             if (response is null) return response;
             
             if (await _dbContext.Quotations.FirstOrDefaultAsync(x => x.Date.Equals(response.Date)) is not null) 
@@ -58,7 +58,7 @@ public class ExchangeService : IExchangeService
         {
             var response = await _httpClient.FetchDataAsync<QuotationDto>(
                 date is null ? _externEndPointRoute.UrlDaily : _externEndPointRoute.UrlDaily + "?date_req=" + 
-                                                               date.ToString()!.Replace(".", "/")
+                                                               date
             );
             
             if (response?.Volute is null) return response;
