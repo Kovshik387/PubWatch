@@ -35,11 +35,11 @@ public class ExchangeService : Volute.VoluteBase
 
     public override async Task<DynamicValueResponse> GetDynamicValue(DynamicValueRequest request, ServerCallContext context)
     {
-        if (DateOnly.TryParseExact(request.Date1, DateStringFormat, CultureInfo.GetCultureInfo(Locale),
+        if (!DateOnly.TryParseExact(request.Date1, DateStringFormat, CultureInfo.GetCultureInfo(Locale),
             DateTimeStyles.None, out var parsedDate1)) 
             throw new RpcException(new Status(StatusCode.InvalidArgument, "Invalid date format"));
 
-        if (DateOnly.TryParseExact(request.Date2, DateStringFormat, CultureInfo.GetCultureInfo(Locale),
+        if (!DateOnly.TryParseExact(request.Date2, DateStringFormat, CultureInfo.GetCultureInfo(Locale),
             DateTimeStyles.None, out var parsedDate2))
             throw new RpcException(new Status(StatusCode.InvalidArgument, "Invalid date format"));
         
