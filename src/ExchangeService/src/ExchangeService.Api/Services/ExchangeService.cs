@@ -24,8 +24,7 @@ public class ExchangeService : Volute.VoluteBase
 
     public override async Task<DailyVoluteResponse> GetCurrentValue(DailyVoluteRequest request, ServerCallContext context)
     {
-        if (!DateOnly.TryParseExact(request.Date, DateStringFormat, CultureInfo.GetCultureInfo(Locale),
-                DateTimeStyles.None, out var parsedDate)) 
+        if (!DateOnly.TryParseExact(request.Date, DateStringFormat, out var parsedDate)) 
             throw new RpcException(new Status(StatusCode.InvalidArgument, "Invalid date format"));
         
         _logger.LogInformation($"Date: {request.Date}|\tParsed Date: {parsedDate}");
@@ -35,12 +34,10 @@ public class ExchangeService : Volute.VoluteBase
 
     public override async Task<DynamicValueResponse> GetDynamicValue(DynamicValueRequest request, ServerCallContext context)
     {
-        if (!DateOnly.TryParseExact(request.Date1, DateStringFormat, CultureInfo.GetCultureInfo(Locale),
-            DateTimeStyles.None, out var parsedDate1)) 
+        if (!DateOnly.TryParseExact(request.Date1, DateStringFormat, out var parsedDate1)) 
             throw new RpcException(new Status(StatusCode.InvalidArgument, "Invalid date format"));
 
-        if (!DateOnly.TryParseExact(request.Date2, DateStringFormat, CultureInfo.GetCultureInfo(Locale),
-            DateTimeStyles.None, out var parsedDate2))
+        if (!DateOnly.TryParseExact(request.Date2, DateStringFormat, out var parsedDate2))
             throw new RpcException(new Status(StatusCode.InvalidArgument, "Invalid date format"));
         
         var records = await _exchangeService.GetRateListByDateAsync(parsedDate1, parsedDate2, request.Name);
