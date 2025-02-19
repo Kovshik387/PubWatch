@@ -4,6 +4,8 @@ WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
 
+RUN apt-get update && apt-get install -y libicu
+
 RUN apt-get update && apt-get install -y locales \
     && locale-gen ru_RU.UTF-8 \
     && apt-get clean
