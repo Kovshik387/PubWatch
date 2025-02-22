@@ -29,13 +29,12 @@ public class ExchangeService : Volute.VoluteBase
             throw new RpcException(new Status(StatusCode.InvalidArgument, "Invalid date format"));
 
         _logger.LogInformation($"Date: {request.Date}|\tParsed Date: {parsedDate}");
+        
+        DateOnly date = DateOnly.ParseExact(request.Date, "dd.MM.yyyy", CultureInfo.InvariantCulture);
 
-        var temp = DateOnly.Parse(request.Date,
-            CultureInfo.CurrentCulture);
+        _logger.LogInformation($"Date_parsed: {date}");
         
-        _logger.LogInformation($"Date_temp: {temp}");
-        
-        return _mapper.Map<DailyVoluteResponse>(await _exchangeService.GetRateByDateAsync(temp));
+        return _mapper.Map<DailyVoluteResponse>(await _exchangeService.GetRateByDateAsync(parsedDate));
     }
 
     public override async Task<DynamicValueResponse> GetDynamicValue(DynamicValueRequest request, ServerCallContext context)

@@ -33,8 +33,6 @@ public class ExchangeService : IExchangeService
 
     public async Task<QuotationDto?> GetRateByDateAsync(DateOnly? date = null)
     {
-        _logger.LogInformation("Date:\t" + date );
-        
         var data = await _dbContext.Quotations.FirstOrDefaultAsync(x => x.Date.Equals(date));
         
         if (data is null)
