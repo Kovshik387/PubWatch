@@ -35,7 +35,7 @@ public class JwtGenerator : IJwtGenerator
             SigningCredentials = new SigningCredentials(_jwtSettings.SymmetricSecurityKeyAccess,
                 SecurityAlgorithms.HmacSha256),
         };
-
+        
         var refreshTokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(claims),
@@ -79,7 +79,7 @@ public class JwtGenerator : IJwtGenerator
         var tokenHandler = new JwtSecurityTokenHandler();
         try
         {
-            return tokenHandler.ValidateToken(refreshToken, tokenValidationParameters, out var validatedToken);
+            return tokenHandler.ValidateToken(refreshToken, tokenValidationParameters, out _);
         }
         catch (Exception ex)
         {

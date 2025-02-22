@@ -17,12 +17,12 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.6.0" />
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.2" />
         <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
         <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.0" />
         <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="9.0.0" />
-        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.3.0" />
+        <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="7.6.2" />
+        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.6.2" />
     </ItemGroup>
 
     <ItemGroup>
