@@ -33,14 +33,19 @@ public class ExchangeService : IExchangeService
 
     public async Task<QuotationDto?> GetRateByDateAsync(DateOnly? date = null)
     {
-        var data = await _dbContext.Quotations.FirstOrDefaultAsync(x => x.Date.Equals(date));
+        var parsedDate = DateOnly.Parse(date.ToString() ?? DateTime.UtcNow
+            .ToString(CultureInfo.InvariantCulture)).ToString("MM/dd/yyyy"); 
+        
+        var data = await _dbContext.Quotations.FirstOrDefaultAsync(x 
+            => x.Date.ToString().Equals(parsedDate));
         
         if (data is null)
         {
             _logger.LogInformation("{Url}",date is null ? _externEndPointRoute.UrlDaily : _externEndPointRoute.UrlDaily
                 + "?date_req=" + date);
             var response = await _httpClient.FetchDataAsync<QuotationDto>(
-                date is null ? _externEndPointRoute.UrlDaily : _externEndPointRoute.UrlDaily + "?date_req=" + date
+                date is null ? _externEndPointRoute.UrlDaily : _externEndPointRoute.UrlDaily + "?date_req=" + 
+                                                               date.ToString()?.Replace(".", "/")
             );
             
             if (response is null) return response;
@@ -58,7 +63,7 @@ public class ExchangeService : IExchangeService
         {
             var response = await _httpClient.FetchDataAsync<QuotationDto>(
                 date is null ? _externEndPointRoute.UrlDaily : _externEndPointRoute.UrlDaily + "?date_req=" + 
-                                                               date.Value.ToString("dd.mm.yyyy", CultureInfo.InvariantCulture)
+                                                               date.ToString()?.Replace(".", "/")
             );
             
             if (response?.Volute is null) return response;
