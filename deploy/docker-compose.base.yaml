@@ -2,7 +2,9 @@ name: develop
 
 networks:
   pub-dev:
-    driver: bridge
+  driver: bridge
+  driver_opts:
+    com.docker.network.driver.mtu: 1450
 
 services:
   
