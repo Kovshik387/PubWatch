@@ -112,9 +112,12 @@ public class ExchangeService : IExchangeService
 
             foreach (var dateRange in missingDateRanges)
             {
-                var response = await _httpClient.FetchDataAsync<QuotationsDto>(
-                    $"{_externEndPointRoute.UrlInterval}?date_req1={dateRange.Item1}&" +
-                    $"date_req2={dateRange.Item2}&VAL_NM_RQ={nameVal}");
+                var route = $"{_externEndPointRoute.UrlInterval}?date_req1={dateRange.Item1}&" +
+                            $"date_req2={dateRange.Item2}&VAL_NM_RQ={nameVal}";
+
+                _logger.LogInformation("Route: {Route}", route);
+                
+                var response = await _httpClient.FetchDataAsync<QuotationsDto>(route);
                 _logger.LogInformation($"Запрос недостающих дат: {dateRange.Item1}\t|\t{dateRange.Item2}");
 
                 if (response == null || response.Records.Count == 0)
