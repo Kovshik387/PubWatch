@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Globalization;
+using AutoMapper;
 using ExchangeService.Application.Data.Dto;
 using ExchangeService.Application.Interfaces;
 using ExchangeService.Application.Settings;
@@ -42,7 +43,7 @@ public class ExchangeService : IExchangeService
                 date);
             var response = await _httpClient.FetchDataAsync<QuotationDto>(
                 date is null ? _externEndPointRoute.UrlDaily : _externEndPointRoute.UrlDaily + "?date_req=" + 
-                                                               date
+                                                               date.Value.ToString("dd.mm.yyyy", CultureInfo.InvariantCulture)
             );
             
             if (response is null) return response;
@@ -60,7 +61,7 @@ public class ExchangeService : IExchangeService
         {
             var response = await _httpClient.FetchDataAsync<QuotationDto>(
                 date is null ? _externEndPointRoute.UrlDaily : _externEndPointRoute.UrlDaily + "?date_req=" + 
-                                                               date
+                                                               date.Value.ToString("dd.mm.yyyy", CultureInfo.InvariantCulture)
             );
             
             if (response?.Volute is null) return response;

@@ -8,8 +8,8 @@ using ExchangeServiceProto;
 
 public class ExchangeService : Volute.VoluteBase
 {
-    private const string Locale = "ru-RU";
     private const string DateStringFormat = "dd.MM.yyyy";
+    private const string Locale = "ru-RU";
     
     private readonly IExchangeService _exchangeService;
     private readonly IMapper _mapper; 
@@ -24,23 +24,25 @@ public class ExchangeService : Volute.VoluteBase
 
     public override async Task<DailyVoluteResponse> GetCurrentValue(DailyVoluteRequest request, ServerCallContext context)
     {
-        if (!DateOnly.TryParseExact(request.Date, DateStringFormat, out var parsedDate)) 
+        if (!DateOnly.TryParseExact(request.Date, DateStringFormat, CultureInfo.GetCultureInfo(Locale),
+                DateTimeStyles.None , out var parsedDate))  
             throw new RpcException(new Status(StatusCode.InvalidArgument, "Invalid date format"));
-        
+
         _logger.LogInformation($"Date: {request.Date}|\tParsed Date: {parsedDate}");
-        
-        return _mapper.Map<DailyVoluteResponse>(await _exchangeService.GetRateByDateAsync(parsedDate));
+
+        return _mapper.Map<DailyVoluteResponse>(await _exchangeService.GetRateByDateAsync(DateOnly.Parse(request.Date)));
     }
 
     public override async Task<DynamicValueResponse> GetDynamicValue(DynamicValueRequest request, ServerCallContext context)
     {
-        if (!DateOnly.TryParseExact(request.Date1, DateStringFormat, out var parsedDate1)) 
+        if (!DateOnly.TryParseExact(request.Date1, DateStringFormat, out _)) 
             throw new RpcException(new Status(StatusCode.InvalidArgument, "Invalid date format"));
 
-        if (!DateOnly.TryParseExact(request.Date2, DateStringFormat, out var parsedDate2))
+        if (!DateOnly.TryParseExact(request.Date2, DateStringFormat, out _))
             throw new RpcException(new Status(StatusCode.InvalidArgument, "Invalid date format"));
         
-        var records = await _exchangeService.GetRateListByDateAsync(parsedDate1, parsedDate2, request.Name);
+        var records = await _exchangeService.GetRateListByDateAsync(DateOnly.Parse(request.Date1),
+            DateOnly.Parse(request.Date2), request.Name);
         
         var response = new DynamicValueResponse();
         response.Record.AddRange(_mapper.Map<List<RecordResponse>>(records));

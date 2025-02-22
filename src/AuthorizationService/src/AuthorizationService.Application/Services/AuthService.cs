@@ -47,7 +47,7 @@ public class AuthService : IAuthService
         
         var device = account.Refreshes.
             FirstOrDefault(x => x.Device.Equals(model.Device));
-
+        
         if (device is null)
         {
             account.Refreshes.Add(new RefreshToken()
