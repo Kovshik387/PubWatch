@@ -34,7 +34,7 @@ public class ExchangeService : IExchangeService
     public async Task<QuotationDto?> GetRateByDateAsync(DateOnly? date = null)
     {
         var parsedDate = DateOnly.Parse(date.ToString() ?? DateTime.UtcNow
-            .ToString(CultureInfo.InvariantCulture)).ToString("MM/dd/yyyy"); 
+            .ToString(CultureInfo.InvariantCulture));
         
         var data = await _dbContext.Quotations.FirstOrDefaultAsync(x 
             => x.Date.ToString().Equals(parsedDate));
@@ -78,7 +78,6 @@ public class ExchangeService : IExchangeService
 
         _logger.LogInformation("Данные из бд");
         return _mapper.Map<QuotationDto>(data);
-    
     }
 
     public async Task<IList<RecordDto>> GetRateListByDateAsync(DateOnly date1, DateOnly date2, string nameVal)
