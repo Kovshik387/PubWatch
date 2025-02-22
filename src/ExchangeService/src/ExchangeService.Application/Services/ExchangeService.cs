@@ -37,7 +37,7 @@ public class ExchangeService : IExchangeService
             .ToString(CultureInfo.InvariantCulture));
         
         var data = await _dbContext.Quotations.FirstOrDefaultAsync(x 
-            => x.Date.ToString().Equals(parsedDate));
+            => x.Date.Equals(parsedDate));
         
         if (data is null)
         {
@@ -45,7 +45,7 @@ public class ExchangeService : IExchangeService
                 + "?date_req=" + date);
             var response = await _httpClient.FetchDataAsync<QuotationDto>(
                 date is null ? _externEndPointRoute.UrlDaily : _externEndPointRoute.UrlDaily + "?date_req=" + 
-                                                               date.ToString()?.Replace(".", "/")
+                                                               date
             );
             
             if (response is null) return response;
@@ -65,7 +65,7 @@ public class ExchangeService : IExchangeService
         {
             var response = await _httpClient.FetchDataAsync<QuotationDto>(
                 date is null ? _externEndPointRoute.UrlDaily : _externEndPointRoute.UrlDaily + "?date_req=" + 
-                                                               date.ToString()?.Replace(".", "/")
+                                                               date
             );
             
             if (response?.Volute is null) return response;
