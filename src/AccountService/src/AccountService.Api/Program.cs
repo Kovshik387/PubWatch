@@ -1,4 +1,3 @@
-using AccountService.Api.Middleware;
 using AccountService.Api.Services;
 using AccountService.Api.Settings;
 using AccountService.Application;
@@ -28,8 +27,6 @@ app.MapControllers();
 app.MapGet("/", () => "Hello World!");
 app.UseHealthChecks("/health");
 app.MapHealthChecks("/health");
-
-app.UseMiddleware<ExceptionMiddleware>();
 
 DbInitializer.Execute(app.Services);
 
