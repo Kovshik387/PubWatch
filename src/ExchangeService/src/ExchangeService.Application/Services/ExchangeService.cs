@@ -33,14 +33,14 @@ public class ExchangeService : IExchangeService
 
     public async Task<QuotationDto?> GetRateByDateAsync(DateOnly? date = null)
     {
-        _logger.LogInformation("Date:\t" + date);
-
+        _logger.LogInformation("Date:\t" + date );
+        
         var data = await _dbContext.Quotations.FirstOrDefaultAsync(x => x.Date.Equals(date));
         
         if (data is null)
         {
-            _logger.LogInformation("{Url}",date is null ? _externEndPointRoute.UrlDaily : _externEndPointRoute.UrlDaily + "?date_req=" + 
-                date);
+            _logger.LogInformation("{Url}",date is null ? _externEndPointRoute.UrlDaily : _externEndPointRoute.UrlDaily
+                + "?date_req=" + date);
             var response = await _httpClient.FetchDataAsync<QuotationDto>(
                 date is null ? _externEndPointRoute.UrlDaily : _externEndPointRoute.UrlDaily + "?date_req=" + 
                                                                date.Value.ToString("dd.mm.yyyy", CultureInfo.InvariantCulture)
