@@ -63,10 +63,14 @@ public class ExchangeService : IExchangeService
 
         if (data.Volutes.Count < TypeSize)
         {
-            var response = await _httpClient.FetchDataAsync<QuotationDto>(
-                date is null ? _externEndPointRoute.UrlDaily : _externEndPointRoute.UrlDaily + "?date_req=" + 
-                                                               date
-            );
+            var route = date is null
+                ? _externEndPointRoute.UrlDaily
+                : _externEndPointRoute.UrlDaily + "?date_req=" +
+                  date;
+            
+            _logger.LogInformation("Route: {Url}", route);
+            
+            var response = await _httpClient.FetchDataAsync<QuotationDto>(route);
             
             if (response?.Volute is null) return response;
             
