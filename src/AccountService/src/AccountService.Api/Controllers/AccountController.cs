@@ -42,4 +42,13 @@ public class AccountController : Controller
     {
         await _mediator.Send(new AddChosenVoluteCommand(id, favorite)); return Ok();
     }
+    
+    [HttpDelete]
+    [Authorize]
+    [Route("delete-volute")]
+    public async Task<IActionResult> DeleteFavoriteVolute(Guid id, [FromBody] FavoriteDto favorite)
+    {
+        await _mediator.Send(new DeleteChosenVoluteCommand(id, favorite));
+        return Ok();
+    }
 }
