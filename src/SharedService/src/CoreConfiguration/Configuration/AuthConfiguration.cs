@@ -28,7 +28,6 @@ public static class AuthConfiguration
                     RequireExpirationTime = true,
                     ValidateLifetime = true,
                 };
-                options.UseSecurityTokenValidators = true;
                 options.Events = new JwtBearerEvents
                 {
                     OnChallenge = context =>
