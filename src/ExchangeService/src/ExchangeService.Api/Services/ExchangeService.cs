@@ -30,8 +30,12 @@ public class ExchangeService : Volute.VoluteBase
 
         _logger.LogInformation($"Date: {request.Date}|\tParsed Date: {parsedDate}");
 
-        return _mapper.Map<DailyVoluteResponse>(await _exchangeService.GetRateByDateAsync(DateOnly.Parse(request.Date,
-            CultureInfo.CurrentCulture)));
+        var temp = DateOnly.Parse(request.Date,
+            CultureInfo.CurrentCulture);
+        
+        _logger.LogInformation($"Date_temp: {temp}");
+        
+        return _mapper.Map<DailyVoluteResponse>(await _exchangeService.GetRateByDateAsync(temp));
     }
 
     public override async Task<DynamicValueResponse> GetDynamicValue(DynamicValueRequest request, ServerCallContext context)
