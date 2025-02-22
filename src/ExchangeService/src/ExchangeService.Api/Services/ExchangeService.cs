@@ -51,7 +51,7 @@ public class ExchangeService : Volute.VoluteBase
         var response = new DynamicValueResponse();
         response.Record.AddRange(_mapper.Map<List<RecordResponse>>(records));
         
-        if (response.Record.Count != 0) throw new RpcException(new Status(StatusCode.NotFound, "No records found"));
+        if (response.Record.Count == 0) throw new RpcException(new Status(StatusCode.NotFound, "No records found"));
         
         return response;
     }

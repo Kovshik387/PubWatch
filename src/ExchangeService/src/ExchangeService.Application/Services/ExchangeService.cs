@@ -92,9 +92,9 @@ public class ExchangeService : IExchangeService
             .Where(v => v.Idname.Equals(nameVal) && v.Valcurs.Date >= date1 && v.Valcurs.Date <= date2)
             .Include(volute => volute.Valcurs)
             .ToListAsync();
-
+        
         var existingDates = existingRecords.Select(v => v.Valcurs.Date).ToHashSet(); 
-
+        
         var allDates = Enumerable.Range(0, date2.DayNumber - date1.DayNumber + 1)
                                  .Select(date1.AddDays)
                                  .ToList();
