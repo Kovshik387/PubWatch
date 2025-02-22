@@ -49,11 +49,13 @@ public class ExchangeService : IExchangeService
             );
             
             if (response is null) return response;
+
+            var result = _mapper.Map<Quotation>(response);
             
-            if (await _dbContext.Quotations.FirstOrDefaultAsync(x => x.Date.Equals(response.Date)) is not null) 
+            if (await _dbContext.Quotations.FirstOrDefaultAsync(x => x.Date.Equals(result.Date)) is not null) 
                 return response;
             
-            await _dbContext.Quotations.AddAsync(_mapper.Map<Quotation>(response)); await _dbContext.SaveChangesAsync();
+            await _dbContext.Quotations.AddAsync(result); await _dbContext.SaveChangesAsync();
 
             _logger.LogInformation("Запись данных в бд");
             return response;
@@ -94,7 +96,7 @@ public class ExchangeService : IExchangeService
                                  .ToList();
 
         var missingDates = allDates.Except(existingDates).ToList();
-
+        
         var result = new List<RecordDto>();
 
         var voluteTemplate = await _dbContext.Currencies.
