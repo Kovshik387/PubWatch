@@ -91,7 +91,7 @@ public class SendNotificationCommandHandler : IRequestHandler<SendNotificationCo
             };
 
             await _smtpClient.SendMailAsync(message, cancellationToken);
-            
+            _logger.LogInformation($"to {_emailSettings.Email}");
         }
     }
 

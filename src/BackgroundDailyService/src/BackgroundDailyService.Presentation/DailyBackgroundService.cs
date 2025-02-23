@@ -32,7 +32,7 @@ public class DailyBackgroundService : BackgroundService
                     _logger.LogError(ex, ex.Message);
                 }
             // }
-            await Task.Delay(1000 * 60 * 5, stoppingToken);
+            await Task.Delay(1000 * 60 * 1, stoppingToken);
         }
     }
 }
