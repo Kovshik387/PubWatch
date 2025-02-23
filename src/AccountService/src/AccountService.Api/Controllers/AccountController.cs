@@ -51,4 +51,13 @@ public class AccountController : Controller
         await _mediator.Send(new DeleteChosenVoluteCommand(id, favorite));
         return Ok();
     }
+
+    [HttpPatch]
+    [Authorize]
+    [Route("subscribe")]
+    public async Task<IActionResult> Subscribe(Guid id)
+    {
+        await _mediator.Send(new ChangeSubscriptionCommand(id));
+        return Ok();
+    }
 }

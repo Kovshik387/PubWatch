@@ -135,6 +135,8 @@ public class AuthService : IAuthService
         
         var idUser = _jwtGenerator.GetUserByRefreshToken(refreshToken);
         
+        _logger.LogInformation($"IdUser: {idUser}");
+        
         if (idUser is null) throw new RefreshTokenException("Invalid refresh token");
 
         var user = await _dbContext.Accounts
