@@ -127,7 +127,7 @@ public class AuthService : IAuthService
 
     public async Task<AuthDto> GetAccessTokenAsync(RefreshDto request)
     {
-        this._logger.LogInformation(_jwtGenerator.GetExpireTime(request.RefreshToken));
+        _logger.LogInformation(_jwtGenerator.GetExpireTime(request.RefreshToken));
         
         if (DateTime.UtcNow > DateTimeOffset
                 .FromUnixTimeSeconds(long.Parse(_jwtGenerator.GetExpireTime(request.RefreshToken) ?? string.Empty)).UtcDateTime)
@@ -146,8 +146,9 @@ public class AuthService : IAuthService
         var tokenExist = user?.Refreshes.FirstOrDefault(x => x.Token.Equals(request.RefreshToken)); 
         
         if (tokenExist is null) throw new RefreshTokenException("Invalid refresh token");
-        
+        _logger.LogInformation("Token exist");
         var tokens = _jwtGenerator.GenerateJwtToken(Guid.Parse(idUser));
+        _logger.LogInformation("Token generated");
         tokenExist.Token = tokens.RefreshToken; await _dbContext.SaveChangesAsync();
 
         return tokens;
