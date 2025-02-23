@@ -125,15 +125,15 @@ public class AuthService : IAuthService
         return !await _dbContext.Accounts.AnyAsync();
     }
 
-    public async Task<AuthDto> GetAccessTokenAsync(string refreshToken)
+    public async Task<AuthDto> GetAccessTokenAsync(RefreshDto request)
     {
-        this._logger.LogInformation(_jwtGenerator.GetExpireTime(refreshToken));
+        this._logger.LogInformation(_jwtGenerator.GetExpireTime(request.RefreshToken));
         
         if (DateTime.UtcNow > DateTimeOffset
-                .FromUnixTimeSeconds(long.Parse(_jwtGenerator.GetExpireTime(refreshToken) ?? string.Empty)).UtcDateTime)
+                .FromUnixTimeSeconds(long.Parse(_jwtGenerator.GetExpireTime(request.RefreshToken) ?? string.Empty)).UtcDateTime)
             throw new RefreshTokenException("Invalid or expired refresh token");
         
-        var idUser = _jwtGenerator.GetUserByRefreshToken(refreshToken);
+        var idUser = _jwtGenerator.GetUserByRefreshToken(request.RefreshToken);
         
         _logger.LogInformation($"IdUser: {idUser}");
         
@@ -143,7 +143,7 @@ public class AuthService : IAuthService
             .Include(account => account.Refreshes)
             .FirstOrDefaultAsync(x => x.Id == Guid.Parse(idUser));
 
-        var tokenExist = user?.Refreshes.FirstOrDefault(x => x.Token.Equals(refreshToken)); 
+        var tokenExist = user?.Refreshes.FirstOrDefault(x => x.Token.Equals(request.RefreshToken)); 
         
         if (tokenExist is null) throw new RefreshTokenException("Invalid refresh token");
         

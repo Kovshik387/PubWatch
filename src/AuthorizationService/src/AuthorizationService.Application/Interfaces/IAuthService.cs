@@ -24,9 +24,9 @@ public interface IAuthService
     /// <summary>
     /// Выдача нового access-токена
     /// </summary>
-    /// <param name="refreshToken"></param>
+    /// <param name="request"></param>
     /// <returns></returns>
-    public Task<AuthDto> GetAccessTokenAsync(string refreshToken);
+    public Task<AuthDto> GetAccessTokenAsync(RefreshDto request);
     /// <summary>
     /// Удаление refresh-токена у пользователя
     /// </summary>

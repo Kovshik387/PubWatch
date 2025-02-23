@@ -35,7 +35,7 @@ public class AuthController : ControllerBase
     [Route("refresh")]
     [AllowAnonymous]
     [ProducesResponseType(type:typeof(AuthDto), statusCode: StatusCodes.Status201Created)]
-    public async Task<IActionResult> RefreshAccess([FromBody] string refreshToken)
+    public async Task<IActionResult> RefreshAccess([FromBody] RefreshDto refreshToken)
     {
         return Ok(await _authService.GetAccessTokenAsync(refreshToken));
     }
