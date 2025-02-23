@@ -49,11 +49,11 @@ public class DailyReceiverService : IDailyReceiverService
             return;
         }
         
-        if (responseDate < date)
-        {
-            _logger.LogInformation($"No Currencies on {date}");
-            return;
-        }
+        // if (responseDate < date)
+        // {
+        //     _logger.LogInformation($"No Currencies on {date}");
+        //     return;
+        // }
         
         var grpcService = GetCommunicationService(CommunicationType.Grpc);
         
