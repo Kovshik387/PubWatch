@@ -47,7 +47,7 @@ public class AuthService : IAuthService
         
         var device = account.Refreshes.
             FirstOrDefault(x => x.Device.Equals(model.Device));
-        
+
         if (device is null)
         {
             account.Refreshes.Add(new RefreshToken()
@@ -137,14 +137,14 @@ public class AuthService : IAuthService
         
         _logger.LogInformation($"IdUser: {idUser}");
         
-        if (idUser is null) throw new RefreshTokenException("Invalid refresh token");
+        if (idUser is null) throw new RefreshTokenException($"Invalid refresh with user id {idUser} token");
 
         var user = await _dbContext.Accounts
             .Include(account => account.Refreshes)
             .FirstOrDefaultAsync(x => x.Id == Guid.Parse(idUser));
 
         var tokenExist = user?.Refreshes.FirstOrDefault(x => x.Token.Equals(request.RefreshToken)); 
-        
+        _logger.LogInformation($"User: exits: {tokenExist}");
         if (tokenExist is null) throw new RefreshTokenException("Invalid refresh token");
         _logger.LogInformation("Token exist");
         var tokens = _jwtGenerator.GenerateJwtToken(Guid.Parse(idUser));
