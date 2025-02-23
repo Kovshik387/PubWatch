@@ -49,7 +49,8 @@ public class SendNotificationCommandHandler : IRequestHandler<SendNotificationCo
             {
                 Password = _emailSettings.Password,
                 UserName = _emailSettings.Email
-            }
+            },
+            DeliveryFormat = SmtpDeliveryFormat.SevenBit,
         };
     }
 
