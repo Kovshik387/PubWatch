@@ -31,7 +31,7 @@ public class AddChosenVoluteCommandHandler : IRequestHandler<AddChosenVoluteComm
         if (user is null) throw new UserNotFoundException($"User: {request.Id} not found");
 
         if (user.Favorites
-                .FirstOrDefault(x => x.Volute.Equals(request.FavoriteDto.Volute)) is not null)
+                .FirstOrDefault(x => x.Name.Equals(request.FavoriteDto.Name)) is not null)
         {
             return;
         }

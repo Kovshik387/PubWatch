@@ -60,4 +60,13 @@ public class AccountController : Controller
         await _mediator.Send(new ChangeSubscriptionCommand(id));
         return Ok();
     }
+
+    [HttpDelete]
+    [Authorize]
+    [Route("account/delete")]
+    public async Task<IActionResult> DeleteImage(Guid id)
+    {
+        await _mediator.Send(new DeleteImageCommand(id));
+        return Ok();
+    }
 }
