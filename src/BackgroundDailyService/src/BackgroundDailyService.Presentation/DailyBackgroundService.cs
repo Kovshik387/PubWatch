@@ -21,8 +21,8 @@ public class DailyBackgroundService : BackgroundService
         await Task.Delay(20 * 1000, stoppingToken);
         while (!stoppingToken.IsCancellationRequested)
         {
-            // if ((DateTime.UtcNow.Hour + TimeDifference).Equals(UpdateTime))
-            // {
+            if ((DateTime.UtcNow.Hour + TimeDifference).Equals(UpdateTime))
+            {
                 try
                 {
                     await _dailyReceiver.SendNotificationAsync();
@@ -31,8 +31,8 @@ public class DailyBackgroundService : BackgroundService
                 {
                     _logger.LogError(ex, ex.Message);
                 }
-            // }
-            await Task.Delay(1000 * 60 * 1, stoppingToken);
+            }
+            await Task.Delay(1000 * 60 * 35, stoppingToken);
         }
     }
 }
