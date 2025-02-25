@@ -23,7 +23,7 @@ services:
     - ./certbot/www:/var/www/certbot/:rw
     - ./certbot/conf/:/etc/letsencrypt/:rw
     networks:
-    - pub-dev 
+    - pub-dev
 
   redis:
       image: redis:latest
