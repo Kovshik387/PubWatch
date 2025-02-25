@@ -4,23 +4,26 @@ services:
     container_name: nginx
     ports:
     - "80:80"
+    - "443:443"
     restart: always
     networks: 
     -  pub-dev
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./certbot/conf/:/etc/letsencrypt/:ro
+      - ./certbot/www:/var/www/certbot/:ro
 
-  # certbot:
-  #   image: certbot/certbot
-  #   restart: unless-stopped
-  #   depends_on:
-  #   - nginx
-  #   container_name: certbot
-  #   volumes:
-  #   - ./certbot/www:/var/www/certbot/:rw
-  #   - ./certbot/conf/:/etc/letsencrypt/:rw
-  #   networks:
-  #   - pub-dev 
+  certbot:
+    image: certbot/certbot
+    restart: unless-stopped
+    depends_on:
+    - nginx
+    container_name: certbot
+    volumes:
+    - ./certbot/www:/var/www/certbot/:rw
+    - ./certbot/conf/:/etc/letsencrypt/:rw
+    networks:
+    - pub-dev 
 
   redis:
       image: redis:latest
