@@ -7,4 +7,5 @@ public class AccountDto
     public string? Patronymic { get; init; } = string.Empty;
     public IEnumerable<FavoriteDto> Favorites { get; init; } = [];
     public string Image { get; set; } = string.Empty;
+    public bool Accept { get; set; }
 }

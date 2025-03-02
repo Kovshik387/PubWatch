@@ -25,7 +25,7 @@ public class DeleteChosenVoluteCommandHandler : IRequestHandler<DeleteChosenVolu
         
         var volute = await _dbContext.Favorites
             .FirstOrDefaultAsync(x => x.Iduser.Equals(request.Id) 
-                                      && x.Volute.Equals(request.FavoriteDto.Volute), cancellationToken);
+                                      && x.Name.Equals(request.FavoriteDto.Name), cancellationToken);
         
         if (volute is null) throw new VoluteNotFoundException("Volute not found");
 

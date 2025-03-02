@@ -4,9 +4,7 @@ WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
 
-RUN apt-get update && apt-get install -y locales \
-    && locale-gen ru_RU.UTF-8 \
-    && apt-get clean
+RUN apt-get update && apt-get install -y curl ca-certificates && update-ca-certificates
 
 ENV LANG=ru_RU.UTF-8
 ENV LANGUAGE=ru_RU:ru

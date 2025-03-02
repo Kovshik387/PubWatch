@@ -10,6 +10,7 @@ public class ExchangeMapper : Profile
     {
         CreateMap<DailyVoluteResponse,QuotationDto>().ReverseMap();
         CreateMap<RecordDto, DynamicValueResponse>().ReverseMap();
+        CreateMap<RecordDto, RecordResponse>().ReverseMap();
         CreateMap<CurrencyDto,RecordResponse>().ReverseMap();
         CreateMap<CurrencyDto, VoluteResponse>().ReverseMap();
     }

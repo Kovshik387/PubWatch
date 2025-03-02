@@ -49,7 +49,7 @@ public class SendNotificationCommandHandler : IRequestHandler<SendNotificationCo
             {
                 Password = _emailSettings.Password,
                 UserName = _emailSettings.Email
-            }
+            },
         };
     }
 
@@ -91,7 +91,7 @@ public class SendNotificationCommandHandler : IRequestHandler<SendNotificationCo
             };
 
             await _smtpClient.SendMailAsync(message, cancellationToken);
-            
+            _logger.LogInformation($"to {_emailSettings.Email}");
         }
     }
 

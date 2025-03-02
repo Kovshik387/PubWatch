@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AccountService.Infrastructure.Migrations
 {
     [DbContext(typeof(AccountDbContext))]
-    [Migration("20250129153627_Initial")]
+    [Migration("20250225153316_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -46,12 +46,6 @@ namespace AccountService.Infrastructure.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)")
                         .HasColumnName("name");
-
-                    b.Property<string>("Volute")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)")
-                        .HasColumnName("volute");
 
                     b.HasKey("Id")
                         .HasName("favorites_pkey");

@@ -42,4 +42,31 @@ public class AccountController : Controller
     {
         await _mediator.Send(new AddChosenVoluteCommand(id, favorite)); return Ok();
     }
+    
+    [HttpDelete]
+    [Authorize]
+    [Route("delete-volute")]
+    public async Task<IActionResult> DeleteFavoriteVolute(Guid id, [FromBody] FavoriteDto favorite)
+    {
+        await _mediator.Send(new DeleteChosenVoluteCommand(id, favorite));
+        return Ok();
+    }
+
+    [HttpPatch]
+    [Authorize]
+    [Route("subscribe")]
+    public async Task<IActionResult> Subscribe(Guid id)
+    {
+        await _mediator.Send(new ChangeSubscriptionCommand(id));
+        return Ok();
+    }
+
+    [HttpDelete]
+    [Authorize]
+    [Route("account/delete")]
+    public async Task<IActionResult> DeleteImage(Guid id)
+    {
+        await _mediator.Send(new DeleteImageCommand(id));
+        return Ok();
+    }
 }

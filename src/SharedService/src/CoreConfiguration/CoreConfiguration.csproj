@@ -8,7 +8,7 @@
 
     <ItemGroup>
       <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0" />
-      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.13" />
       <PackageReference Include="Microsoft.AspNetCore.Grpc.Swagger" Version="0.8.0" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
@@ -22,6 +22,7 @@
       <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.7.3" />
       <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="8.0.2" />
       <PackageReference Include="Swashbuckle.AspNetCore.Filters.Abstractions" Version="8.0.2" />
+      <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.5.1" />
     </ItemGroup>
 
 </Project>

@@ -1,4 +1,3 @@
-using AccountService.Api.Middleware;
 using AccountService.Api.Services;
 using AccountService.Api.Settings;
 using AccountService.Application;
@@ -10,10 +9,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.Configure<SecretSettings>(builder.Configuration.GetSection(nameof(SecretSettings)));
 
+builder.Services.AddCoreConfiguration(builder.Configuration);
 builder.UseAppLogger();
 builder.UseAppAuth();
 builder.Services.AddGrpc().AddJsonTranscoding();
-builder.Services.AddCoreConfiguration(builder.Configuration);
 builder.Services.AddApplication(builder.Configuration);
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddControllers();
@@ -28,8 +27,6 @@ app.MapControllers();
 app.MapGet("/", () => "Hello World!");
 app.UseHealthChecks("/health");
 app.MapHealthChecks("/health");
-
-app.UseMiddleware<ExceptionMiddleware>();
 
 DbInitializer.Execute(app.Services);
 

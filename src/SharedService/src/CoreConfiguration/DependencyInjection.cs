@@ -10,18 +10,18 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddCoreConfiguration(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddAppSwagger(configuration);
         services.AddAppCors();
+        services.AddAppSwagger(configuration);
         
         return services;
     }
     
     public static void UseCoreConfiguration(this WebApplication app)
     {
+        app.UseAppCors();
         app.UseAuthentication();
         app.UseAuthorization();
         app.UseAppSwagger();
-        app.UseAppCors();
     }
 
     public static void UseAppAuth(this WebApplicationBuilder builder)

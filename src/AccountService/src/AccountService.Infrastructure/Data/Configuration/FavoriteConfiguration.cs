@@ -18,9 +18,6 @@ public static class FavoriteConfiguration
             entity.Property(e => e.Name)
                 .HasMaxLength(200)
                 .HasColumnName("name");
-            entity.Property(e => e.Volute)
-                .HasMaxLength(200)
-                .HasColumnName("volute");
 
             entity.HasOne(d => d.IduserNavigation).WithMany(p => p.Favorites)
                 .HasForeignKey(d => d.Iduser)

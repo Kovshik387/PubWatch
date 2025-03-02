@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ExchangeCacheService.Api.Controllers;
 
 [ApiController]
-[Route("api/exhcange")]
+[Route("api/exchange")]
 public class CacheController : ControllerBase
 {
     private readonly ILogger<CacheController> _logger;

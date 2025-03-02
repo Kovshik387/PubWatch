@@ -35,7 +35,6 @@ namespace AccountService.Infrastructure.Migrations
                 {
                     id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    volute = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
                     name = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
                     iduser = table.Column<Guid>(type: "uuid", nullable: true)
                 },

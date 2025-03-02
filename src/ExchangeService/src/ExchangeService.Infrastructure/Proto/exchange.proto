@@ -44,6 +44,8 @@ message DynamicValueResponse{
 }
 
 service Volute {
-  rpc GetCurrentValue (DailyVoluteRequest) returns (DailyVoluteResponse);
+  rpc GetCurrentValue (DailyVoluteRequest) returns (DailyVoluteResponse){
+    
+  };
   rpc GetDynamicValue (DynamicValueRequest) returns (DynamicValueResponse);
 }

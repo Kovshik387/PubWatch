@@ -44,12 +44,6 @@ namespace AccountService.Infrastructure.Migrations
                         .HasColumnType("character varying(200)")
                         .HasColumnName("name");
 
-                    b.Property<string>("Volute")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)")
-                        .HasColumnName("volute");
-
                     b.HasKey("Id")
                         .HasName("favorites_pkey");
 

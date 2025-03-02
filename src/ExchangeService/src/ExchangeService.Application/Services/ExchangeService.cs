@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Globalization;
+using AutoMapper;
 using ExchangeService.Application.Data.Dto;
 using ExchangeService.Application.Interfaces;
 using ExchangeService.Application.Settings;
@@ -32,23 +33,29 @@ public class ExchangeService : IExchangeService
 
     public async Task<QuotationDto?> GetRateByDateAsync(DateOnly? date = null)
     {
-        _logger.LogInformation("Date:\t" + date);
-
-        var data = await _dbContext.Quotations.FirstOrDefaultAsync(x => x.Date.Equals(date));
+        var parsedDate = DateOnly.Parse(date.ToString() ?? DateTime.UtcNow
+            .ToString(CultureInfo.InvariantCulture));
+        
+        var data = await _dbContext.Quotations.FirstOrDefaultAsync(x 
+            => x.Date.Equals(parsedDate));
         
         if (data is null)
         {
+            _logger.LogInformation("{Url}",date is null ? _externEndPointRoute.UrlDaily : _externEndPointRoute.UrlDaily
+                + "?date_req=" + date);
             var response = await _httpClient.FetchDataAsync<QuotationDto>(
                 date is null ? _externEndPointRoute.UrlDaily : _externEndPointRoute.UrlDaily + "?date_req=" + 
-                                                               date.ToString()!.Replace(".","/")
+                                                               date
             );
-
-            if (response is null) return response;
             
-            if (await _dbContext.Quotations.FirstOrDefaultAsync(x => x.Date.Equals(response.Date)) is not null) 
+            if (response is null) return response;
+
+            var result = _mapper.Map<Quotation>(response);
+            
+            if (await _dbContext.Quotations.FirstOrDefaultAsync(x => x.Date.Equals(result.Date)) is not null) 
                 return response;
             
-            await _dbContext.Quotations.AddAsync(_mapper.Map<Quotation>(response)); await _dbContext.SaveChangesAsync();
+            await _dbContext.Quotations.AddAsync(result); await _dbContext.SaveChangesAsync();
 
             _logger.LogInformation("Запись данных в бд");
             return response;
@@ -56,10 +63,14 @@ public class ExchangeService : IExchangeService
 
         if (data.Volutes.Count < TypeSize)
         {
-            var response = await _httpClient.FetchDataAsync<QuotationDto>(
-                date is null ? _externEndPointRoute.UrlDaily : _externEndPointRoute.UrlDaily + "?date_req=" + 
-                                                               date.ToString()!.Replace(".", "/")
-            );
+            var route = date is null
+                ? _externEndPointRoute.UrlDaily
+                : _externEndPointRoute.UrlDaily + "?date_req=" +
+                  date;
+            
+            _logger.LogInformation("Route: {Url}", route);
+            
+            var response = await _httpClient.FetchDataAsync<QuotationDto>(route);
             
             if (response?.Volute is null) return response;
             
@@ -73,7 +84,6 @@ public class ExchangeService : IExchangeService
 
         _logger.LogInformation("Данные из бд");
         return _mapper.Map<QuotationDto>(data);
-    
     }
 
     public async Task<IList<RecordDto>> GetRateListByDateAsync(DateOnly date1, DateOnly date2, string nameVal)
@@ -82,15 +92,15 @@ public class ExchangeService : IExchangeService
             .Where(v => v.Idname.Equals(nameVal) && v.Valcurs.Date >= date1 && v.Valcurs.Date <= date2)
             .Include(volute => volute.Valcurs)
             .ToListAsync();
-
+        
         var existingDates = existingRecords.Select(v => v.Valcurs.Date).ToHashSet(); 
-
+        
         var allDates = Enumerable.Range(0, date2.DayNumber - date1.DayNumber + 1)
                                  .Select(date1.AddDays)
                                  .ToList();
 
         var missingDates = allDates.Except(existingDates).ToList();
-
+        
         var result = new List<RecordDto>();
 
         var voluteTemplate = await _dbContext.Currencies.
@@ -102,9 +112,12 @@ public class ExchangeService : IExchangeService
 
             foreach (var dateRange in missingDateRanges)
             {
-                var response = await _httpClient.FetchDataAsync<QuotationsDto>(
-                    $"{_externEndPointRoute.UrlInterval}?date_req1={dateRange.Item1}&" +
-                    $"date_req2={dateRange.Item2}&VAL_NM_RQ={nameVal}");
+                var route = $"{_externEndPointRoute.UrlInterval}?date_req1={dateRange.Item1}&" +
+                            $"date_req2={dateRange.Item2}&VAL_NM_RQ={nameVal}";
+
+                _logger.LogInformation("Route: {Route}", route);
+                
+                var response = await _httpClient.FetchDataAsync<QuotationsDto>(route);
                 _logger.LogInformation($"Запрос недостающих дат: {dateRange.Item1}\t|\t{dateRange.Item2}");
 
                 if (response == null || response.Records.Count == 0)

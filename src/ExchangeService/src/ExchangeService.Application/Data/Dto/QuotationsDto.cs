@@ -1,7 +1,7 @@
 ﻿using System.Xml.Serialization;
 
 namespace ExchangeService.Application.Data.Dto;
-
+[XmlRoot("ValCurs")]
 public class QuotationsDto
 {
     [XmlAttribute("ID")]
