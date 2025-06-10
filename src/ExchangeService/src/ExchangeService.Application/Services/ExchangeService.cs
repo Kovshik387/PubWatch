@@ -15,7 +15,7 @@ public class ExchangeService : IExchangeService
     private readonly ExternEndPointRoute _externEndPointRoute;
     
     private readonly IDbContext _dbContext;
-    private readonly IHttpServiceClient _httpClient;
+    private readonly IServiceClient _client;
     private readonly ILogger<ExchangeService> _logger;
     private readonly IMapper _mapper;
     /// <summary>
@@ -23,10 +23,10 @@ public class ExchangeService : IExchangeService
     /// </summary>
     private const int TypeSize = 42;
 
-    public ExchangeService(IDbContext dbContext, IHttpServiceClient httpClient, ILogger<ExchangeService> logger, 
+    public ExchangeService(IDbContext dbContext, IServiceClient client, ILogger<ExchangeService> logger, 
         IMapper mapper, IOptions<ExternEndPointRoute> externEndPointRoute)
     {
-        _dbContext = dbContext; _httpClient = httpClient;
+        _dbContext = dbContext; _client = client;
         _logger = logger; _mapper = mapper;
         _externEndPointRoute = externEndPointRoute.Value;
     }
@@ -43,7 +43,7 @@ public class ExchangeService : IExchangeService
         {
             _logger.LogInformation("{Url}",date is null ? _externEndPointRoute.UrlDaily : _externEndPointRoute.UrlDaily
                 + "?date_req=" + date);
-            var response = await _httpClient.FetchDataAsync<QuotationDto>(
+            var response = await _client.FetchDataAsync<QuotationDto>(
                 date is null ? _externEndPointRoute.UrlDaily : _externEndPointRoute.UrlDaily + "?date_req=" + 
                                                                date
             );
@@ -70,7 +70,7 @@ public class ExchangeService : IExchangeService
             
             _logger.LogInformation("Route: {Url}", route);
             
-            var response = await _httpClient.FetchDataAsync<QuotationDto>(route);
+            var response = await _client.FetchDataAsync<QuotationDto>(route);
             
             if (response?.Volute is null) return response;
             
@@ -117,7 +117,7 @@ public class ExchangeService : IExchangeService
 
                 _logger.LogInformation("Route: {Route}", route);
                 
-                var response = await _httpClient.FetchDataAsync<QuotationsDto>(route);
+                var response = await _client.FetchDataAsync<QuotationsDto>(route);
                 _logger.LogInformation($"Запрос недостающих дат: {dateRange.Item1}\t|\t{dateRange.Item2}");
 
                 if (response == null || response.Records.Count == 0)

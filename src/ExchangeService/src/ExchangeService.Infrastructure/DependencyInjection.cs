@@ -20,7 +20,7 @@ public static class DependencyInjection
         
         services.AddAutoMapper(assemblies);
 
-        services.AddTransient<IHttpServiceClient, HttpServiceClient>();
+        services.AddTransient<IServiceClient, GrpcServiceClient>();
         
         return services;
     }

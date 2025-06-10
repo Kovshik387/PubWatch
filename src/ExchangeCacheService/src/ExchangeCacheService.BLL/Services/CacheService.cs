@@ -43,7 +43,7 @@ public class CacheService : ICacheService
 
     public async Task<DynamicValueResponse?> GetDataByDatesAsync(string date1, string date2, string name)
     {
-        var searchString = $"{date1} {date2} {name}";
+        var searchString = $"{date1}:{date2}:{name}";
         return await GetDataVolute(searchString,
             async () => await GetDynamicValueFromSource(date1, date2, name),
             TimeSpan.FromMinutes(_redisSettings.CacheLargeData));

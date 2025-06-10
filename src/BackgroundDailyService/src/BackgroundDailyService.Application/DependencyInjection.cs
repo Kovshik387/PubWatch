@@ -10,8 +10,7 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddApplication(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddSingleton<IDailyReceiverService,DailyReceiverService>();
-        
+        services.AddSingleton<IDailyReceiverService, DailyReceiverService>();
         services.Configure<QueueSettings>(configuration.GetSection(nameof(QueueSettings)));
         
         return services;

@@ -11,7 +11,7 @@ using StorageService.Application.Settings;
 
 namespace StorageService.Application.Services;
 
-public class StorageService : IStorageService
+public class  StorageService : IStorageService
 {
     private readonly ILogger<StorageService> _logger;
     private readonly IAmazonS3 _s3Client;

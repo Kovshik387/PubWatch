@@ -21,6 +21,7 @@ public static class DependencyInjection
         app.UseAppCors();
         app.UseAuthentication();
         app.UseAuthorization();
+        
         app.UseAppSwagger();
     }
 

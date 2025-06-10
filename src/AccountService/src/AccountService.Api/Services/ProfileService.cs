@@ -6,7 +6,6 @@ using AccountServiceProto;
 using AutoMapper;
 using Grpc.Core;
 using MediatR;
-using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.Options;
 
 namespace AccountService.Api.Services;

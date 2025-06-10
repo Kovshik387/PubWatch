@@ -29,7 +29,6 @@ public class ExchangeService : Volute.VoluteBase
             throw new RpcException(new Status(StatusCode.InvalidArgument, "Invalid date format"));
 
         _logger.LogInformation($"Date: {request.Date}|\tParsed Date: {parsedDate}");
-        
         DateOnly date = DateOnly.ParseExact(request.Date, "dd.MM.yyyy", CultureInfo.InvariantCulture);
 
         _logger.LogInformation($"Date_parsed: {date}");
